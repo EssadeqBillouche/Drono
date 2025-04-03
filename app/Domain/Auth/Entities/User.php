@@ -2,6 +2,7 @@
 
 namespace App\Domain\Auth\Entities;
 
+use App\Domain\Auth\ValueObjects\Address;
 use App\Domain\Auth\ValueObjects\Email;
 use App\Domain\Auth\ValueObjects\Role;
 use App\Domain\Auth\ValueObjects\UserId;
@@ -13,14 +14,16 @@ class User
     private string $password;
     private Role $role;
     private string $name;
+    private Address $address;
 
-    public function __construct(UserId $id, Email $email, string $password, Role $role, string $name)
+    public function __construct(UserId $id, Email $email, string $password, Role $role, string $name, Address $address)
     {
         $this->id = $id;
         $this->email = $email;
         $this->password = $password;
         $this->role = $role;
         $this->name = $name;
+        $this->address = $address;
     }
 
     public function getId(): UserId

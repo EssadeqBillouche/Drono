@@ -25,15 +25,12 @@ class Address
         // Add more validation if needed (e.g., zip format)
     }
 
-    public function street(): string { return $this->street; }
-    public function city(): string { return $this->city; }
-    public function country(): string { return $this->country; }
-    public function zip(): string { return $this->zip; }
+    public function getStreet(): string { return $this->street; }
+    public function getCity(): string { return $this->city; }
+    public function getCountry(): string { return $this->country; }
+    public function getZip(): string { return $this->zip; }
 
-    public function toString(): string
-    {
-        return "$this->street, $this->city, $this->country $this->zip";
-    }
+
 
     public function toArray(): array
     {
@@ -45,11 +42,5 @@ class Address
         ];
     }
 
-    public function equals(Address $other): bool
-    {
-        return $this->street === $other->street &&
-            $this->city === $other->city &&
-            $this->country === $other->country &&
-            $this->zip === $other->zip;
-    }
+
 }
