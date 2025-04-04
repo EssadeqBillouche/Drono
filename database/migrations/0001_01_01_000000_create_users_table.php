@@ -12,13 +12,16 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->rememberToken();
-            $table->timestamps();
+            $table->string('id')->primary(); // Unique string ID (e.g., 'USR-xxx')
+            $table->string('name');          // User's full name
+            $table->string('email')->unique(); // User's email, unique
+            $table->string('password');      // Hashed password
+            $table->string('role');          // Role: 'client', 'admin', 'seller'
+            $table->string('profile_image'); // Profile image path, required for all
+            $table->string('store_background_image')->nullable(); // Store background image path, only for seller
+            $table->string('store_name')->nullable(); // Store name, only for seller
+            $table->string('address')->nullable(); // Store address, only for seller
+            $table->timestamps();            // Created_at and updated_at
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
