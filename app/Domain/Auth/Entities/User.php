@@ -1,55 +1,47 @@
 <?php
-
 namespace App\Domain\Auth\Entities;
 
-use App\Domain\Auth\ValueObjects\Address;
-use App\Domain\Auth\ValueObjects\Email;
-use App\Domain\Auth\ValueObjects\Role;
 use App\Domain\Auth\ValueObjects\UserId;
+use App\Domain\Auth\ValueObjects\Email;
 
-class User
+abstract class User
 {
-    private UserId $id;
-    private Email $email;
-    private string $password;
-    private Role $role;
-    private string $name;
-    private Address $address;
+    protected UserId $id;
+    protected Email $email;
+    protected string $password;
+    protected string $name;
+    protected string $profileImage; // Required for all roles
 
-    public function __construct(UserId $id, Email $email, string $password, Role $role, string $name, Address $address)
+    public function __construct(UserId $id, Email $email, string $password, string $name, string $profileImage)
     {
         $this->id = $id;
         $this->email = $email;
         $this->password = $password;
-        $this->role = $role;
         $this->name = $name;
-        $this->address = $address;
+        $this->profileImage = $profileImage;
     }
 
-    public function getId(): UserId
+    abstract public function getRole(): string;
+
+    public function verifyPassword(string $plainPassword): bool
     {
-        return $this->id;
+        return password_verify($plainPassword, $this->password);
     }
 
-    public function getEmail(): Email
+    public function getId(): UserId { return $this->id; }
+    public function getEmail(): Email { return $this->email; }
+    public function getName(): string { return $this->name; }
+    public function getProfileImage(): string { return $this->profileImage; }
+
+    public function toArray(): array
     {
-        return $this->email;
+        return [
+            'id' => $this->id->value(),
+            'email' => $this->email->value(),
+            'password' => $this->password,
+            'role' => $this->getRole(),
+            'name' => $this->name,
+            'profile_image' => $this->profileImage,
+        ];
     }
-
-    public function getPassword(): string
-    {
-        return $this->password;
-    }
-
-    public function getRole(): Role
-    {
-        return $this->role;
-    }
-
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-
 }
