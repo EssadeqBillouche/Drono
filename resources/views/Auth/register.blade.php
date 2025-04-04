@@ -139,6 +139,9 @@
                             <p class="text-text text-sm">
                                 Already have an account? <a href="{{ route('login') }}" class="text-primary hover:text-primary/80 font-medium">Sign in</a>
                             </p>
+                            <p class="text-text text-sm mt-2">
+                                Want to sell with us? <a href="" class="text-primary hover:text-primary/80 font-medium">Become a Seller</a>
+                            </p>
                         </div>
                     </div>
                 </div>
