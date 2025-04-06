@@ -12,7 +12,7 @@ abstract class User
     protected string $name;
     protected string $profileImage; // Required for all roles
 
-    public function __construct(UserId $id, Email $email, string $password, string $name, string $profileImage)
+    public function __construct(UserId $id, Email $email, string $password, string $name, string $profileImage = null)
     {
         $this->id = $id;
         $this->email = $email;
