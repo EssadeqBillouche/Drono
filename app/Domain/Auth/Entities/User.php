@@ -1,8 +1,10 @@
 <?php
+
 namespace App\Domain\Auth\Entities;
 
-use App\Domain\Auth\ValueObjects\UserId;
 use App\Domain\Auth\ValueObjects\Email;
+use App\Domain\Auth\ValueObjects\UserId;
+use App\Domain\Auth\Enums\Role;
 
 abstract class User
 {
@@ -10,9 +12,9 @@ abstract class User
     protected Email $email;
     protected string $password;
     protected string $name;
-    protected string $profileImage; // Required for all roles
+    protected ?string $profileImage;
 
-    public function __construct(UserId $id, Email $email, string $password, string $name, string $profileImage = null)
+    public function __construct(UserId $id, Email $email, string $password, string $name, ?string $profileImage = null)
     {
         $this->id = $id;
         $this->email = $email;
@@ -23,25 +25,14 @@ abstract class User
 
     abstract public function getRole(): string;
 
-    public function verifyPassword(string $plainPassword): bool
-    {
-        return password_verify($plainPassword, $this->password);
-    }
-
+    // Common getters
     public function getId(): UserId { return $this->id; }
     public function getEmail(): Email { return $this->email; }
     public function getName(): string { return $this->name; }
-    public function getProfileImage(): string { return $this->profileImage; }
 
-    public function toArray(): array
+    public function getPassword(): string
     {
-        return [
-            'id' => $this->id->value(),
-            'email' => $this->email->value(),
-            'password' => $this->password,
-            'role' => $this->getRole(),
-            'name' => $this->name,
-            'profile_image' => $this->profileImage,
-        ];
+        return $this->password;
     }
+    public function getProfileImage(): ?string { return $this->profileImage; }
 }

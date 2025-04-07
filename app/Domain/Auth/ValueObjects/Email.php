@@ -2,7 +2,7 @@
 
 namespace App\Domain\Auth\ValueObjects;
 
-use http\Exception\InvalidArgumentException;
+
 
 class Email
 {
@@ -10,10 +10,11 @@ class Email
 
     public function __construct(string $value)
     {
-        if(!filter_var($value, FILTER_VALIDATE_EMAIL)){
-            throw new InvalidArgumentException('Invalid Email.');
-        }
         $this->value = $value;
+    }
+    public function toString(): string
+    {
+        return $this->value; // Email is already a string, but this ensures consistency
     }
 
 }
