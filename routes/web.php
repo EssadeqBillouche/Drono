@@ -1,10 +1,15 @@
 <?php
 
+use App\Presentation\Http\Controllers\ClientController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/test', function () {
     throw new Exception('Test exception for Telescope');
 });
+
+Route::post('/register',[ClientController::class, 'store'])->name('registerClient');
+Route::post('/register',[ClientController::class, 'registerSeller'])->name('registerSeller');
+
 
 Route::get('/profile', function () { return view('Index'); })->name('home');
 
