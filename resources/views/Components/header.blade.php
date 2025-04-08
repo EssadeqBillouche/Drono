@@ -29,8 +29,8 @@
             </button>
             <!-- Dropdown Menu (Hidden by default, shown on hover) -->
             <div class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 z-10 hidden group-hover:block">
-                <a href="/login" class="block px-4 py-2 text-sm text-[#2f2f2f] hover:bg-gray-100">Login</a>
-                <a href="/register" class="block px-4 py-2 text-sm text-[#2f2f2f] hover:bg-gray-100">Register</a>
+                <a href="{{route('client.register.view')}}" class="block px-4 py-2 text-sm text-[#2f2f2f] hover:bg-gray-100">Login</a>
+                <a href="{{route('login')}}" class="block px-4 py-2 text-sm text-[#2f2f2f] hover:bg-gray-100">Register</a>
             </div>
         </div>
 
@@ -57,10 +57,10 @@
             <li><a href="#" class="block text-[#2f2f2f] hover:text-[#ff7e00]">About</a></li>
             <li><a href="#" class="block text-[#2f2f2f] hover:text-[#ff7e00]">Track Order</a></li>
             <li class="border-t border-gray-100 pt-4 mt-2">
-                <a href="/login" class="block text-[#2f2f2f] hover:text-[#ff7e00]">Login</a>
+                <a href="{{ route('login')}}" class="block text-[#2f2f2f] hover:text-[#ff7e00]">Login</a>
             </li>
             <li>
-                <a href="/register" class="block text-[#2f2f2f] hover:text-[#ff7e00]">Register</a>
+                <a href="{{ route('client.register.view')}}" class="block text-[#2f2f2f] hover:text-[#ff7e00]">Register</a>
             </li>
         </ul>
     </div>

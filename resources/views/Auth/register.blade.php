@@ -20,7 +20,7 @@
                         <h1 class="text-2xl font-bold text-text mb-3 text-center">Create Account</h1>
                         <p class="text-center text-gray-600 mb-4 text-sm">Sign up to get started</p>
 
-                        <form class="space-y-4" method="POST" action="{{ route('register') }}">
+                        <form class="space-y-4" method="POST" action="{{ route('registerClient') }}">
                             @csrf
 
                             <div class="space-y-1">

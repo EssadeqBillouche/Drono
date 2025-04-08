@@ -20,7 +20,7 @@
                         <h1 class="text-2xl font-bold text-text mb-3 text-center">Create Seller Account</h1>
                         <p class="text-center text-gray-600 mb-4 text-sm">Sign up to start selling with Drono</p>
 
-                        <form class="space-y-4" method="POST" action="" enctype="multipart/form-data">
+                        <form class="space-y-4" method="POST" action="{{route('registerSeller')}}" enctype="multipart/form-data">
                             @csrf
 
                             <div class="space-y-1">
@@ -127,7 +127,7 @@
                                 <label for="profile_image" class="block text-sm font-medium text-gray-700">Store Profile Image</label>
                                 <input
                                     id="profile_image"
-                                    name="profile_image"
+                                    name="store_image"
                                     type="file"
                                     class="w-full py-2 bg-white rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-sm"
                                     required

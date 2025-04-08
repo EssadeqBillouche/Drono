@@ -21,7 +21,7 @@
                         <h1 class="text-3xl font-bold text-text mb-4 text-center">Welcome Back</h1>
                         <p class="text-center text-gray-600 mb-6">Sign in to your account to continue</p>
 
-                        <form class="space-y-5" method="POST" action="{{ route('login') }}">
+                        <form class="space-y-5" method="POST" action="">
                             @csrf
 
                             <div class="space-y-2">
@@ -117,7 +117,7 @@
 
                         <div class="mt-6 text-center">
                             <p class="text-text">
-                                Don't have an account? <a href="{{ route('register') }}" class="text-primary hover:text-primary/80 font-medium">Sign up</a>
+                                Don't have an account? <a href="{{ route('registerClient') }}" class="text-primary hover:text-primary/80 font-medium">Sign up</a>
                             </p>
                         </div>
                     </div>
