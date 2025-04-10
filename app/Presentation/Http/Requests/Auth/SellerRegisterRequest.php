@@ -5,8 +5,9 @@ namespace App\Presentation\Http\Requests\Auth;
 use App\Application\Auth\DTOs\RegisterSellerDTO;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
-class RegisterSellerRequest extends FormRequest
+class SellerRegisterRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -28,14 +29,21 @@ class RegisterSellerRequest extends FormRequest
 
     public function toDTO(): RegisterSellerDTO
     {
+        $profileImagePath = $this->storeImage($this->file('store_image'), 'sellers/profile');
+        $backgroundImagePath = $this->storeImage($this->file('store_image'), 'sellers/background');
+
         return new RegisterSellerDTO(
             fullName: $this->input('name'),
             email: $this->input('email'),
             storeName: $this->input('store_name'),
             password: Hash::make($this->input('password')),
-            storeProfileImage: $this->file('store_image'),
-            storeBackgroundImage: $this->file('store_background_image')
+            storeProfileImage: $profileImagePath,
+            storeBackgroundImage: $backgroundImagePath
         );
-
+    }
+    private function storeImage($file, string $directory): string
+    {
+        $path = $file->store($directory, 'public');
+        return Storage::url($path);
     }
 }
