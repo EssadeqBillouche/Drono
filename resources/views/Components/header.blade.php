@@ -12,11 +12,10 @@
     <!-- Desktop Navigation -->
     <nav class="hidden md:flex">
         <ul class="flex gap-8">
-            <li><a href="/" class="text-[#2f2f2f] hover:text-[#ff7e00]">Home</a></li>
-            <li><a href="/catalog" class="text-[#2f2f2f] hover:text-[#ff7e00]">Shop</a></li>
-            <li><a href="#" class="text-[#2f2f2f] hover:text-[#ff7e00]">Contact</a></li>
-            <li><a href="#" class="text-[#2f2f2f] hover:text-[#ff7e00]">About</a></li>
-            <li><a href="#" class="text-[#2f2f2f] hover:text-[#ff7e00]">Track Order</a></li>
+            <li><a href="{{ route("index") }}" class="text-[#2f2f2f] hover:text-[#ff7e00]">Home</a></li>
+            <li><a href="{{ route("catalog") }}" class="text-[#2f2f2f] hover:text-[#ff7e00]">Shop</a></li>
+            <li><a href="" class="text-[#2f2f2f] hover:text-[#ff7e00]">Contact</a></li>
+            <li><a href="" class="text-[#2f2f2f] hover:text-[#ff7e00]">About</a></li>
         </ul>
     </nav>
 

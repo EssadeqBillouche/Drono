@@ -135,8 +135,7 @@
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             <!-- Product Card 1 - Leaf Studios Headphones -->
-            <div class="product-card bg-white rounded-xl overflow-hidden shadow-sm cursor-pointer" onclick="openModal('modal-headphones')">
-                <div class="relative h-56 bg-light">
+            <div id="modal-headphones" class="modal--window fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50" style="display: none;">                <div class="relative h-56 bg-light">
                     <img src="{{ asset('images/products/headphones.jpg') }}" alt="Leaf Studios Headphones" class="object-cover w-full h-full">
                     <div class="vendor-badge">
                         <img src="{{ asset('images/vendors/leafstudios.jpg') }}" alt="Leaf Studios" class="w-full h-full object-cover">
@@ -556,6 +555,9 @@
         // Initialize when DOM is loaded
         document.addEventListener('DOMContentLoaded', function() {
             // Close modal when clicking outside
+            document.querySelectorAll('.modal--window').forEach(modal => {
+                modal.style.display = 'none';
+            });
             const modals = document.querySelectorAll('.modal--window');
             modals.forEach(modal => {
                 modal.addEventListener('click', function(e) {
