@@ -15,26 +15,31 @@ Route::prefix('Authentication')->group(function () {
     // Client Authentication
     Route::prefix('client')->group(function () {
         Route::get('/register', function () {return view('Auth.register');})->name('client.register.view');
-        Route::post('/register', [ClientController::class, 'register'])->name('registerClient');
+        Route::post('/register', [ClientController::class, 'store'])->name('registerClient');
     });
     Route::get('/login', function () { return view('Auth.Login'); })->name('login');
     Route::get('/ResetPassword', function () { return view('Auth.ResetPassword');})->name('ResetPassword');
     // Seller Authentication
     Route::prefix('seller')->group(function () {
         Route::get('/register', function () {
-            return view('Auth.Seller.register');
-        })->name('seller.register.view');
+            return view('Auth.register-seller');
+        })->name('registerSeller');
 
-        Route::post('/register', [SellerController::class, 'register'])->name('Auth.register-seller');
+        Route::post('/register', [SellerController::class, 'store'])->name('Auth.register-seller');
     });
 
 });
 
 // Authenticated Routes
-Route::middleware('auth')->group(function () {
     Route::get('/profile', function () {
-        return view('Index');
-    })->name('profile');
+        return view('Client.ClientProfile');
+    })->name('ClientProfile');
+
+Route::get('/', function () {
+    return view('index');
+})->name('index');
+
+
 
     Route::get('/cart', function () {
         return view('cart');
@@ -53,4 +58,4 @@ Route::middleware('auth')->group(function () {
             return view('checkout.shipping');
         })->name('checkout.shipping');
     });
-});
+
