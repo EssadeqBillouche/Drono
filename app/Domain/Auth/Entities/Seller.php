@@ -9,14 +9,13 @@ use App\Domain\Auth\ValueObjects\UserId;
 class Seller extends User
 {
     private string $storeName;
-    private string $storeImage;
+//    private string $storeImage;
     private string $storeBackgroundImage;
 
-    public function __construct(UserId $id, Email $email, string $password, string $name, string $storeName, string $storeImage, string $storeBackgroundImage, ?string $profileImage = null)
+    public function __construct(UserId $id, Email $email, string $password, string $name, string $storeName, private string $storeImage, string $storeBackgroundImage, ?string $profileImage = null)
     {
         parent::__construct($id, $email, $password, $name, $profileImage);
         $this->storeName = $storeName;
-        $this->storeImage = $storeImage;
         $this->storeBackgroundImage = $storeBackgroundImage;
     }
 
