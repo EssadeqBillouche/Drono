@@ -4,7 +4,7 @@ namespace App\Presentation\Http\Controllers\Auth;
 
 use App\Application\Auth\UseCase\ClientRegisterUseCase;
 use App\Presentation\Http\Controllers\Controller;
-use App\Presentation\Http\Requests\Auth\registerClientRequest;
+use App\Presentation\Http\Requests\Auth\clientRegisterRequest;
 
 class ClientController extends Controller
 {
@@ -12,10 +12,10 @@ class ClientController extends Controller
         private ClientRegisterUseCase $registerClientUseCase
     ) {}
 
-    public function store(registerClientRequest $request)
+    public function store(clientRegisterRequest $request)
     {
         $dto = $request->toDTO();
         $client = $this->registerClientUseCase->RegisterClient($dto);
-        return redirect()->route('dashboard')->with('success', 'Registration successful!');
+        return redirect()->route('ClientProfile')->with('success', 'Registration successful!');
     }
 }

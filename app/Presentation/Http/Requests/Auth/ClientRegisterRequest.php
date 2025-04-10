@@ -6,7 +6,7 @@ use App\Application\Auth\DTOs\RegisterClientDTO;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Hash;
 
-class registerClientRequest extends FormRequest
+class clientRegisterRequest extends FormRequest
 {
     public function authorize(): bool
     {
