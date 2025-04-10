@@ -2,24 +2,28 @@
 
 namespace App\Presentation\Http\Controllers\Auth;
 
-use App\Application\Auth\UseCase\SellerRegisterUseCase;
+use App\Application\Auth\UseCase\sellerRegisterUseCase;
 use App\Presentation\Http\Controllers\Controller;
-use App\Presentation\Http\Requests\Auth\registerSellerRequest;
+use App\Presentation\Http\Requests\Auth\RegisterSellerRequest;
+use Illuminate\Http\RedirectResponse;
 
 class SellerController extends Controller
 {
-    private SellerRegisterUseCase $registerSellerUseCase;
 
-    public function __construct(SellerRegisterUseCase $registerSellerUseCase)
+    public function __construct(
+        private readonly sellerRegisterUseCase $registerSellerUseCase
+    ) {}
+
+    public function store(RegisterSellerRequest $request): RedirectResponse
     {
-        $this->registerSellerUseCase = $registerSellerUseCase;
-    }
+        try {
+            $this->registerSellerUseCase->RegisterSeller($request->toDTO());
+            return redirect()->route('SellerProfile')->with('success', 'Registration successful!');
 
-    public function store(registerSellerRequest $request)
-    {
-        $dto = $request->toDTO();
-        $seller = $this->registerSellerUseCase->RegisterSeller($dto);
-        return redirect()->route('dashboard')->with('success', 'Registration successful!');
-
+        } catch (\Exception $e) {
+            return back()
+                ->withInput()
+                ->with('error', 'Seller registration failed: ' . $e->getMessage());
+        }
     }
 }
