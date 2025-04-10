@@ -3,7 +3,8 @@
 @section('title', 'My Profile - Drono')
 
 @section('css')
-    <link rel="stylesheet" href="{{ asset('css/profile.css') }}">
+    <link rel="stylesheet" href='{{ asset("css/profile.css")}}' type="text/css">
+
 @endsection
 
 @section('content')
@@ -89,7 +90,7 @@
                                 </a>
                             </li>
                             <li class="pt-4 mt-4 border-t border-gray-100">
-                                <form action="{{ route('logout') }}" method="POST">
+                                <form action="" method="POST"> <!--  route('logout')  -->
                                     @csrf
                                     <button type="submit" class="w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-red-600 hover:bg-red-50">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>
@@ -164,7 +165,8 @@
                     <div class="section-content">
                         <div class="flex justify-between items-center mb-6">
                             <h2 class="text-xl font-bold text-[#2f2f2f]">Orders & Tracking</h2>
-                            <a href="{{ route('orders.index') }}" class="text-primary hover:text-primary/80 font-medium">View All</a>
+                            <a href="" class="text-primary hover:text-primary/80 font-medium">View All</a> <!--
+                            // route('orders.index')  -->
                         </div>
                         <div class="mb-8">
                             <h3 class="text-lg font-medium text-[#2f2f2f] mb-4">Active Orders</h3>
@@ -223,8 +225,8 @@
                                             </div>
                                         </div>
                                         <div class="flex justify-between mt-6 pt-4 border-t border-gray-100">
-                                            <a href="{{ route('orders.track', $order['id']) }}" class="text-primary hover:text-primary/80 font-medium text-sm">Track Package</a>
-                                            <a href="{{ route('orders.show', $order['id']) }}" class="text-[#2f2f2f] hover:text-[#2f2f2f]/80 font-medium text-sm">View Details</a>
+                                            <a href="" class="text-primary hover:text-primary/80 font-medium text-sm">Track Package</a> <!-- // route('orders.track', $order['id'])  -->
+                                            <a href="" class="text-[#2f2f2f] hover:text-[#2f2f2f]/80 font-medium text-sm">View Details</a> <!-- // route('orders.show', $order['id'])  -->
                                         </div>
                                     </div>
                                 @endforeach
@@ -232,7 +234,7 @@
                                 <div class="text-center py-8 border border-dashed border-gray-200 rounded-lg">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#909090" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mx-auto mb-3"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
                                     <p class="text-[#909090]">You don't have any active orders</p>
-                                    <a href="{{ route('catalog') }}" class="mt-4 inline-block px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90">Shop Now</a>
+                                    <a href="" class="mt-4 inline-block px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90">Shop Now</a> <!--  //route('catalog')  -->
                                 </div>
                             @endif
                         </div>
@@ -266,7 +268,7 @@
                                                 <span class="px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded-full">{{ $order['status'] }}</span>
                                             </td>
                                             <td class="px-4 py-4 text-sm text-right">
-                                                <a href="{{ route('orders.show', $order['id']) }}" class="text-primary hover:text-primary/80 font-medium">Details</a>
+                                                <a href="" class="text-primary hover:text-primary/80 font-medium">Details</a> <!--  //route('orders.show', $order['id'])  -->
                                             </td>
                                         </tr>
                                     @endforeach
@@ -284,13 +286,13 @@
                 </div>
 
                 <!-- Include other sections (addresses, payment, etc.) -->
-                @include('profile.partials.addresses')
-                @include('profile.partials.payment')
-                @include('profile.partials.subscriptions')
-                @include('profile.partials.notifications')
-                @include('profile.partials.security')
-                @include('profile.partials.rewards')
-                @include('profile.partials.help')
+{{--                @include('profile.partials.addresses')--}}
+{{--                @include('profile.partials.payment')--}}
+{{--                @include('profile.partials.subscriptions')--}}
+{{--                @include('profile.partials.notifications')--}}
+{{--                @include('profile.partials.security')--}}
+{{--                @include('profile.partials.rewards')--}}
+{{--                @include('profile.partials.help')--}}
             </div>
         </div>
     </div>
