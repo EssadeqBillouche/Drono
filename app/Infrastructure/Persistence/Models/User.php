@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Infrastructure\Models;
+namespace App\Infrastructure\Persistence\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -10,11 +10,10 @@ class User extends Authenticatable
     use HasFactory;
 
     protected $fillable = [
-        'id',
-        'role',
+        'name',
         'email',
         'password',
-        'name',
+        'role',
         'status',
         'profile_image'
     ];
@@ -24,8 +23,18 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-        'password' => 'hashed',
-    ];
+    public function client()
+    {
+        return $this->hasOne(Client::class);
+    }
+
+    public function seller()
+    {
+        return $this->hasOne(Seller::class);
+    }
+
+    public function admin()
+    {
+        return $this->hasOne(Admin::class);
+    }
 }
