@@ -20,7 +20,6 @@ class UserController extends Controller
 
         if ($loginSuccess) {
             $user = Auth::user();
-            // Role-based redirection
             return match($user->role) {
                 'admin' => Redirect::intended('/admin/dashboard'),
                 'seller' => Redirect::intended('/seller/dashboard'),
@@ -28,9 +27,12 @@ class UserController extends Controller
                 default => Redirect::intended('/')
             };
         }
-
         return Redirect::back()->withErrors([
             'email' => 'Invalid credentials'
         ]);
+    }
+    public function logout(){
+        $this->loginUseCase->logout();
+        return redirect('/index')->with('success', 'Logout successful!');
     }
 }
