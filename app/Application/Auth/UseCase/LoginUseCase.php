@@ -14,7 +14,7 @@ class LoginUseCase
         $this->userDAO = $userDAO;
     }
 
-    public function userLogin(LoginUserDTO $dto): bool
+    public function Login(LoginUserDTO $dto): bool
     {
         return Auth::attempt([
             'email' => $dto->email,
