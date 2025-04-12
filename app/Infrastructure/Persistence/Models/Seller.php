@@ -8,10 +8,27 @@ class Seller extends Model
     protected $fillable = [
         'user_id',
         'store_name',
+        'store_category',
         'store_profile',
-        'store_address',
         'store_background_image',
+        'store_address',
+        'tax_id',
+        'description',
         'contact_phone'
+    ];
+
+// If using enum, you can add these constants for easy reference
+    public const STORE_CATEGORIES = [
+        'PHARMACY' => 'pharmacy',
+        'GROCERY' => 'grocery',
+        'ELECTRONICS' => 'electronics',
+        'FASHION' => 'fashion',
+        'RESTAURANT' => 'restaurant',
+        'BEAUTY' => 'beauty',
+        'HOME_GARDEN' => 'home_garden',
+        'SPORTS' => 'sports',
+        'BOOKS' => 'books',
+        'TOYS' => 'toys'
     ];
 
     public function user(): BelongsTo
