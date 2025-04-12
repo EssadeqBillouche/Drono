@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Domain\Products\ValueObjects;
-final class Money
+final class Price
 {
     private float $amount;
     private string $currency;
