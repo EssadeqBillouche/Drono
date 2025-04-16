@@ -9,7 +9,10 @@ export default defineConfig({
                 'resources/css/app.css',
                 'resources/css/catalog.css',
                 'resources/js/app.js',
-                'resources/js/catalog.js'],
+                'resources/js/catalog.js',
+                'resources/js/seller-dashboard.js',
+                'resources/css/seller-dashboard.css'
+            ],
             refresh: true,
         }),
         tailwindcss(),
