@@ -2,17 +2,22 @@
 
 namespace App\Domain\Product\ValueObjects;
 
-use App\Domain\Exceptions\InvalidPriceException;
 
-readonly class Price
+
+use mysql_xdevapi\Exception;
+
+final readonly class Price
 {
-    private function __construct(
+    public function __construct(
         private float $amount,
         private string $currency = 'USD'
     ) {
         if ($amount < 0) {
-            throw new InvalidPriceException('Price cannot be negative');
+            throw new Exception('Price cannot be negative');
         }
+    }
+    public function getValue(){
+        return $this->amount;
     }
 
     public static function fromFloat(float $amount): self
