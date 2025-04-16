@@ -43,4 +43,8 @@ class Category extends Model
             }
         });
     }
+    protected static function newFactory()
+    {
+        return \Database\Factories\CategoryFactory::new();
+    }
 }
