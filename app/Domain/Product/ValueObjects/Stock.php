@@ -2,31 +2,32 @@
 
 namespace App\Domain\Product\ValueObjects;
 
+use InvalidArgumentException;
 
-final class Stock
+final readonly class Stock
 {
     private int $quantity;
-    private int $minLimit;
 
-    public function __construct(int $quantity, int $minLimit = 0)
+    public function __construct(int $quantity)
     {
         if ($quantity < 0) {
-            throw new \InvalidArgumentException('Stock cannot be negative');
+            throw new InvalidArgumentException('Stock quantity cannot be negative');
         }
         $this->quantity = $quantity;
-        $this->minLimit = $minLimit;
     }
 
-    public function decrease(int $amount): Stock
+    public function decrease(int $amount): self
     {
         if ($amount > $this->quantity) {
-            throw new \InvalidArgumentException('Insufficient stock');
+            throw new InvalidArgumentException('Not enough stock');
         }
-        return new Stock($this->quantity - $amount, $this->minLimit);
+        return new self($this->quantity - $amount);
     }
 
-    public function isLow(): bool
+    public function getValue(): int
     {
-        return $this->quantity <= $this->minLimit;
+        return $this->quantity;
     }
 }
+
+

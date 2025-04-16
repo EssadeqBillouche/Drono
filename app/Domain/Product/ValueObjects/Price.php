@@ -1,30 +1,43 @@
 <?php
 
-namespace App\Domain\Products\ValueObjects;
-final class Price
+namespace App\Domain\Product\ValueObjects;
+
+
+
+use mysql_xdevapi\Exception;
+
+final readonly class Price
 {
-    private float $amount;
-    private string $currency;
-
-    public function __construct(float $amount, string $currency = 'USD')
-    {
+    public function __construct(
+        private float $amount,
+        private string $currency = 'USD'
+    ) {
         if ($amount < 0) {
-            throw new \InvalidArgumentException('Amount cannot be negative');
+            throw new Exception('Price cannot be negative');
         }
-        $this->amount = round($amount, 2);
-        $this->currency = $currency;
+    }
+    public function getValue(){
+        return $this->amount;
     }
 
-    public function add(Money $other): Money
+    public static function fromFloat(float $amount): self
     {
-        if ($this->currency !== $other->currency) {
-            throw new \InvalidArgumentException('Cannot add different currencies');
-        }
-        return new Money($this->amount + $other->amount, $this->currency);
+        return new self($amount);
     }
 
-    public function format(): string
+    public function getAmount(): float
     {
-        return number_format($this->amount, 2) . ' ' . $this->currency;
+        return $this->amount;
+    }
+
+    public function getCurrency(): string
+    {
+        return $this->currency;
+    }
+
+    public function equals(Price $other): bool
+    {
+        return $this->amount === $other->amount
+            && $this->currency === $other->currency;
     }
 }
