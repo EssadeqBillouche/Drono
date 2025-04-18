@@ -4,6 +4,7 @@ namespace App\Presentation\Http\Controllers\Auth;
 
 use App\Application\Auth\DTOs\LoginUserDTO;
 use App\Application\Auth\UseCase\LoginUseCase;
+use App\Application\Auth\UseCase\TrackDelivery;
 use App\Presentation\Http\Controllers\Controller;
 use App\Presentation\Http\Requests\Auth\LoginRequest;
 use http\Env\Request;
@@ -17,7 +18,6 @@ class UserController extends Controller
     public function login(LoginRequest $request)
     {
         $loginSuccess = $this->loginUseCase->login($request->toDTO());
-
         if ($loginSuccess) {
             $user = Auth::user();
             return match($user->role) {
