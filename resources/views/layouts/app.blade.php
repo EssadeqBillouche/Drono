@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Drono - @yield('title')</title>
-    <link rel="stylesheet" href="@yield('css')">
+    @yield('css')
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -20,7 +20,7 @@
             }
         }
     </script>
-    @vite(['resources/css/catalog.css', 'resources/js/catalog.js'])
+
 </head>
 <body class="min-h-screen bg-[#fff9f0]">
 <div class="container mx-auto px-4 py-6">
@@ -53,11 +53,9 @@
 
     </div>
 
-    @yield('content')
-
 </div>
-@yield('script')
+@include('Components.footer')
 
-@include('Components.footer')  <!-- Updated path -->
+@yield('script')
 </body>
 </html>

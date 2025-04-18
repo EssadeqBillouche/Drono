@@ -12,10 +12,10 @@
     <!-- Desktop Navigation -->
     <nav class="hidden md:flex">
         <ul class="flex gap-8">
-            <li><a href="{{ route("index") }}" class="text-[#2f2f2f] hover:text-[#ff7e00]">Home</a></li>
-            <li><a href="{{ route("catalog") }}" class="text-[#2f2f2f] hover:text-[#ff7e00]">Shop</a></li>
-            <li><a href="" class="text-[#2f2f2f] hover:text-[#ff7e00]">Contact</a></li>
-            <li><a href="" class="text-[#2f2f2f] hover:text-[#ff7e00]">About</a></li>
+            <li><a href="{{ route('index') }}" class="text-[#2f2f2f] hover:text-[#ff7e00]">Home</a></li>
+            <li><a href="{{ route('catalog') }}" class="text-[#2f2f2f] hover:text-[#ff7e00]">Shop</a></li>
+            <li><a href="#" class="text-[#2f2f2f] hover:text-[#ff7e00]">Contact</a></li>
+            <li><a href="#" class="text-[#2f2f2f] hover:text-[#ff7e00]">About</a></li>
         </ul>
     </nav>
 
@@ -28,8 +28,21 @@
             </button>
             <!-- Dropdown Menu (Hidden by default, shown on hover) -->
             <div class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 z-10 hidden group-hover:block">
-                <a href="{{route('client.register.view')}}" class="block px-4 py-2 text-sm text-[#2f2f2f] hover:bg-gray-100">Login</a>
-                <a href="{{route('login')}}" class="block px-4 py-2 text-sm text-[#2f2f2f] hover:bg-gray-100">Register</a>
+                @auth
+                    <!-- Show these options when user is logged in -->
+                    <a href="{{ route('profile') }}" class="block px-4 py-2 text-sm text-[#2f2f2f] hover:bg-gray-100">My Profile</a>
+                    <a href="{{ route('orders') }}" class="block px-4 py-2 text-sm text-[#2f2f2f] hover:bg-gray-100">My Orders</a>
+                    <a href="{{ route('wishlist') }}" class="block px-4 py-2 text-sm text-[#2f2f2f] hover:bg-gray-100">Wishlist</a>
+                    <div class="border-t border-gray-100 my-1"></div>
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="submit" class="block w-full text-left px-4 py-2 text-sm text-[#2f2f2f] hover:bg-gray-100">Logout</button>
+                    </form>
+                @else
+                    <!-- Show these options when user is not logged in -->
+                    <a href="{{ route('login') }}" class="block px-4 py-2 text-sm text-[#2f2f2f] hover:bg-gray-100">Login</a>
+                    <a href="{{ route('client.register.view') }}" class="block px-4 py-2 text-sm text-[#2f2f2f] hover:bg-gray-100">Register</a>
+                @endauth
             </div>
         </div>
 
@@ -38,7 +51,9 @@
             <button class="flex items-center justify-center w-10 h-10 rounded-full border border-gray-200 bg-white">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shopping-cart"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
             </button>
-            <span class="absolute -top-2 -right-2 flex items-center justify-center min-w-[1.25rem] h-5 px-1.5 py-0.5 text-xs font-semibold text-white bg-[#ff7e00] rounded-full">3</span>
+            <span class="absolute -top-2 -right-2 flex items-center justify-center min-w-[1.25rem] h-5 px-1.5 py-0.5 text-xs font-semibold text-white bg-[#ff7e00] rounded-full">
+{{--                Cart::count() ?? 0--}}
+            </span>
         </div>
 
         <!-- Mobile Menu Button (visible on small screens) -->
@@ -50,17 +65,38 @@
     <!-- Mobile Navigation Menu (Hidden by default) -->
     <div class="hidden absolute top-20 left-0 right-0 bg-white shadow-md z-50 p-4 md:hidden" id="mobile-menu">
         <ul class="flex flex-col gap-4">
-            <li><a href="/" class="block text-[#2f2f2f] hover:text-[#ff7e00]">Home</a></li>
-            <li><a href="/catalog" class="block text-[#2f2f2f] hover:text-[#ff7e00]">Shop</a></li>
+            <li><a href="{{ route('index') }}" class="block text-[#2f2f2f] hover:text-[#ff7e00]">Home</a></li>
+            <li><a href="{{ route('catalog') }}" class="block text-[#2f2f2f] hover:text-[#ff7e00]">Shop</a></li>
             <li><a href="#" class="block text-[#2f2f2f] hover:text-[#ff7e00]">Contact</a></li>
             <li><a href="#" class="block text-[#2f2f2f] hover:text-[#ff7e00]">About</a></li>
             <li><a href="#" class="block text-[#2f2f2f] hover:text-[#ff7e00]">Track Order</a></li>
-            <li class="border-t border-gray-100 pt-4 mt-2">
-                <a href="{{ route('login')}}" class="block text-[#2f2f2f] hover:text-[#ff7e00]">Login</a>
-            </li>
-            <li>
-                <a href="{{ route('client.register.view')}}" class="block text-[#2f2f2f] hover:text-[#ff7e00]">Register</a>
-            </li>
+
+            @auth
+                <!-- Show these options when user is logged in -->
+                <li class="border-t border-gray-100 pt-4 mt-2">
+                    <a href="{{ route('profile') }}" class="block text-[#2f2f2f] hover:text-[#ff7e00]">My Profile</a>
+                </li>
+                <li>
+                    <a href="{{ route('orders') }}" class="block text-[#2f2f2f] hover:text-[#ff7e00]">My Orders</a>
+                </li>
+                <li>
+                    <a href="{{ route('wishlist') }}" class="block text-[#2f2f2f] hover:text-[#ff7e00]">Wishlist</a>
+                </li>
+                <li>
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="submit" class="block w-full text-left text-[#2f2f2f] hover:text-[#ff7e00]">Logout</button>
+                    </form>
+                </li>
+            @else
+                <!-- Show these options when user is not logged in -->
+                <li class="border-t border-gray-100 pt-4 mt-2">
+                    <a href="{{ route('login') }}" class="block text-[#2f2f2f] hover:text-[#ff7e00]">Login</a>
+                </li>
+                <li>
+                    <a href="{{ route('client.register.view') }}" class="block text-[#2f2f2f] hover:text-[#ff7e00]">Register</a>
+                </li>
+            @endauth
         </ul>
     </div>
 

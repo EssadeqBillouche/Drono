@@ -3,12 +3,30 @@
 @section('title', 'My Profile - Drono')
 
 @section('css')
-    <link rel="stylesheet" href='{{ asset("css/profile.css")}}' type="text/css">
-
+    <link rel="stylesheet" href="{{ asset('css/ClientProfile.css') }}" type="text/css">
 @endsection
 
 @section('content')
     <div class="container mx-auto px-4 py-6">
+        <!-- Alert messages -->
+        @if(session('success'))
+            <div class="p-4 mb-4 rounded-lg border bg-green-100 text-green-800 border-green-200 flex items-start gap-3">
+                <div class="flex-shrink-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                </div>
+                <div>{{ session('success') }}</div>
+            </div>
+        @endif
+
+        @if(session('error'))
+            <div class="p-4 mb-4 rounded-lg border bg-red-100 text-red-800 border-red-200 flex items-start gap-3">
+                <div class="flex-shrink-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
+                </div>
+                <div>{{ session('error') }}</div>
+            </div>
+        @endif
+
         <!-- Page Title -->
         <div class="mb-8">
             <h1 class="text-3xl font-bold text-[#2f2f2f]">My Profile</h1>
@@ -90,7 +108,7 @@
                                 </a>
                             </li>
                             <li class="pt-4 mt-4 border-t border-gray-100">
-                                <form action="" method="POST"> <!--  route('logout')  -->
+                                <form action="{{ route('logout') }}" method="POST">
                                     @csrf
                                     <button type="submit" class="w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-red-600 hover:bg-red-50">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>
@@ -107,31 +125,48 @@
             <div class="lg:w-3/4" id="content-area">
                 <!-- Personal Information Section -->
                 <div id="profile-section" class="section active">
-                    <div class="section-content">
+                    <div class="section-content bg-white rounded-xl shadow-sm p-6">
                         <div class="flex justify-between items-center mb-6">
                             <h2 class="text-xl font-bold text-[#2f2f2f]">Personal Information</h2>
                             <button class="text-primary hover:text-primary/80 font-medium" id="edit-profile-btn">Edit</button>
                         </div>
-                        <form id="profile-form" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <form id="profile-form" action="{{ route('profile.update') }}" method="POST" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            @csrf
+                            @method('PUT')
                             <div>
                                 <label class="block text-sm font-medium text-[#909090] mb-1">First Name</label>
                                 <input type="text" name="first_name" value="{{ $user->first_name ?? 'John' }}" class="w-full px-4 py-2 border border-gray-200 rounded-lg bg-gray-50 focus:bg-white focus:border-primary focus:ring-1 focus:ring-primary/20 transition-all" readonly>
+                                @error('first_name')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                @enderror
                             </div>
                             <div>
                                 <label class="block text-sm font-medium text-[#909090] mb-1">Last Name</label>
                                 <input type="text" name="last_name" value="{{ $user->last_name ?? 'Doe' }}" class="w-full px-4 py-2 border border-gray-200 rounded-lg bg-gray-50 focus:bg-white focus:border-primary focus:ring-1 focus:ring-primary/20 transition-all" readonly>
+                                @error('last_name')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                @enderror
                             </div>
                             <div>
                                 <label class="block text-sm font-medium text-[#909090] mb-1">Email Address</label>
                                 <input type="email" name="email" value="{{ $user->email ?? 'john.doe@example.com' }}" class="w-full px-4 py-2 border border-gray-200 rounded-lg bg-gray-50 focus:bg-white focus:border-primary focus:ring-1 focus:ring-primary/20 transition-all" readonly>
+                                @error('email')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                @enderror
                             </div>
                             <div>
                                 <label class="block text-sm font-medium text-[#909090] mb-1">Phone Number</label>
                                 <input type="tel" name="phone" value="{{ $user->phone ?? '+1 (555) 123-4567' }}" class="w-full px-4 py-2 border border-gray-200 rounded-lg bg-gray-50 focus:bg-white focus:border-primary focus:ring-1 focus:ring-primary/20 transition-all" readonly>
+                                @error('phone')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                @enderror
                             </div>
                             <div class="md:col-span-2">
                                 <label class="block text-sm font-medium text-[#909090] mb-1">Date of Birth</label>
                                 <input type="text" name="dob" value="{{ $user->dob ?? 'January 15, 1985' }}" class="w-full px-4 py-2 border border-gray-200 rounded-lg bg-gray-50 focus:bg-white focus:border-primary focus:ring-1 focus:ring-primary/20 transition-all" readonly>
+                                @error('dob')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                @enderror
                             </div>
                             <div id="profile-actions" class="md:col-span-2 hidden">
                                 <div class="flex gap-3 justify-end">
@@ -142,31 +177,36 @@
                         </form>
                         <div class="mt-6 pt-6 border-t border-gray-100">
                             <h3 class="text-lg font-medium text-[#2f2f2f] mb-4">Communication Preferences</h3>
-                            <div class="space-y-3">
-                                <div class="flex items-center">
-                                    <input type="checkbox" id="email-updates" class="w-4 h-4 text-primary accent-primary" checked>
-                                    <label for="email-updates" class="ml-2 text-[#2f2f2f]">Email updates about new services and promotions</label>
+                            <form action="" method="POST">
+                                @csrf
+                                <div class="space-y-3">
+                                    <div class="flex items-center">
+                                        <input type="checkbox" id="email-updates" name="email_updates" class="w-4 h-4 text-primary accent-primary" {{ $preferences->email_updates ?? true ? 'checked' : '' }}>
+                                        <label for="email-updates" class="ml-2 text-[#2f2f2f]">Email updates about new services and promotions</label>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <input type="checkbox" id="sms-updates" name="sms_updates" class="w-4 h-4 text-primary accent-primary" {{ $preferences->sms_updates ?? true ? 'checked' : '' }}>
+                                        <label for="sms-updates" class="ml-2 text-[#2f2f2f]">SMS notifications for delivery updates</label>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <input type="checkbox" id="marketing" name="marketing" class="w-4 h-4 text-primary accent-primary" {{ $preferences->marketing ?? false ? 'checked' : '' }}>
+                                        <label for="marketing" class="ml-2 text-[#2f2f2f]">Marketing communications from partners</label>
+                                    </div>
                                 </div>
-                                <div class="flex items-center">
-                                    <input type="checkbox" id="sms-updates" class="w-4 h-4 text-primary accent-primary" checked>
-                                    <label for="sms-updates" class="ml-2 text-[#2f2f2f]">SMS notifications for delivery updates</label>
+                                <div class="mt-4">
+                                    <button type="submit" class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90">Update Preferences</button>
                                 </div>
-                                <div class="flex items-center">
-                                    <input type="checkbox" id="marketing" class="w-4 h-4 text-primary accent-primary">
-                                    <label for="marketing" class="ml-2 text-[#2f2f2f]">Marketing communications from partners</label>
-                                </div>
-                            </div>
+                            </form>
                         </div>
                     </div>
                 </div>
 
                 <!-- Orders & Tracking Section -->
                 <div id="orders-section" class="section">
-                    <div class="section-content">
+                    <div class="section-content bg-white rounded-xl shadow-sm p-6">
                         <div class="flex justify-between items-center mb-6">
                             <h2 class="text-xl font-bold text-[#2f2f2f]">Orders & Tracking</h2>
-                            <a href="" class="text-primary hover:text-primary/80 font-medium">View All</a> <!--
-                            // route('orders.index')  -->
+                            <a href="{{ route('order.history') }}" class="text-primary hover:text-primary/80 font-medium">View All</a>
                         </div>
                         <div class="mb-8">
                             <h3 class="text-lg font-medium text-[#2f2f2f] mb-4">Active Orders</h3>
@@ -225,8 +265,8 @@
                                             </div>
                                         </div>
                                         <div class="flex justify-between mt-6 pt-4 border-t border-gray-100">
-                                            <a href="" class="text-primary hover:text-primary/80 font-medium text-sm">Track Package</a> <!-- // route('orders.track', $order['id'])  -->
-                                            <a href="" class="text-[#2f2f2f] hover:text-[#2f2f2f]/80 font-medium text-sm">View Details</a> <!-- // route('orders.show', $order['id'])  -->
+                                            <a href="{{ route('orders.track', $order['id']) }}" class="text-primary hover:text-primary/80 font-medium text-sm">Track Package</a>
+                                            <a href="{{ route('orders.show', $order['id']) }}" class="text-[#2f2f2f] hover:text-[#2f2f2f]/80 font-medium text-sm">View Details</a>
                                         </div>
                                     </div>
                                 @endforeach
@@ -234,7 +274,7 @@
                                 <div class="text-center py-8 border border-dashed border-gray-200 rounded-lg">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#909090" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mx-auto mb-3"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
                                     <p class="text-[#909090]">You don't have any active orders</p>
-                                    <a href="" class="mt-4 inline-block px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90">Shop Now</a> <!--  //route('catalog')  -->
+                                    <a href="{{ route('catalog') }}" class="mt-4 inline-block px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90">Shop Now</a>
                                 </div>
                             @endif
                         </div>
@@ -254,7 +294,7 @@
                                     </tr>
                                     </thead>
                                     <tbody class="bg-white divide-y divide-gray-200">
-                                    @foreach($orderHistory ?? [
+                                    @forelse($orderHistory ?? [
                                         ['id' => 'DRN-78932', 'date' => 'Feb 28, 2025', 'items' => 2, 'total' => '$79.98', 'status' => 'Delivered'],
                                         ['id' => 'DRN-78901', 'date' => 'Feb 15, 2025', 'items' => 1, 'total' => '$49.99', 'status' => 'Delivered'],
                                         ['id' => 'DRN-78890', 'date' => 'Jan 30, 2025', 'items' => 3, 'total' => '$124.97', 'status' => 'Delivered']
@@ -268,37 +308,34 @@
                                                 <span class="px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded-full">{{ $order['status'] }}</span>
                                             </td>
                                             <td class="px-4 py-4 text-sm text-right">
-                                                <a href="" class="text-primary hover:text-primary/80 font-medium">Details</a> <!--  //route('orders.show', $order['id'])  -->
+                                                <a href="{{ route('orders.show', $order['id']) }}" class="text-primary hover:text-primary/80 font-medium">Details</a>
                                             </td>
                                         </tr>
-                                    @endforeach
+                                    @empty
+                                        <tr>
+                                            <td colspan="6" class="text-center py-4 text-[#909090]">No order history found</td>
+                                        </tr>
+                                    @endforelse
                                     </tbody>
                                 </table>
                             </div>
-
-                            @if(empty($orderHistory))
-                                <div class="text-center py-4 text-[#909090]">
-                                    No order history found
-                                </div>
-                            @endif
                         </div>
                     </div>
                 </div>
 
                 <!-- Include other sections (addresses, payment, etc.) -->
-{{--                @include('profile.partials.addresses')--}}
-{{--                @include('profile.partials.payment')--}}
-{{--                @include('profile.partials.subscriptions')--}}
-{{--                @include('profile.partials.notifications')--}}
-{{--                @include('profile.partials.security')--}}
-{{--                @include('profile.partials.rewards')--}}
-{{--                @include('profile.partials.help')--}}
+                @include('Client.partials.addresses')
+                @include('Client.partials.payment')
+                @include('Client.partials.subscriptions')
+                @include('Client.partials.notifications')
+                @include('Client.partials.security')
+                @include('Client.partials.rewards')
+                @include('Client.partials.help')
             </div>
         </div>
     </div>
 @endsection
 
-@section('scripts')
-    <script src="{{ asset('js/profile.js') }}"></script>
+@section('script')
+<script src="{{asset('js/ClientProfile.js')}}"></script>
 @endsection
-
