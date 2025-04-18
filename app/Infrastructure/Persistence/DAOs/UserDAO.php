@@ -2,10 +2,13 @@
 
 namespace App\Infrastructure\Persistence\DAOs;
 
+use App\Application\Auth\DTOs\LoginUserDTO;
 use App\Domain\Auth\Entities\Client;
 use App\Domain\Auth\Entities\Seller;
 use App\Domain\Auth\Repositories\UserRepositoryInterface;
 use App\Infrastructure\Persistence\Models\User;
+use Illuminate\Support\Facades\Hash;
+use MongoDB\Driver\Exception\AuthenticationException;
 use mysql_xdevapi\Exception;
 
 class UserDAO implements UserRepositoryInterface
@@ -52,10 +55,29 @@ class UserDAO implements UserRepositoryInterface
         return $sellerCreated;
     }
 
-    public function findUserByEmail(string $email): ?User
+    /**
+     * Authenticates a user with email and password
+     *
+     * @return User|null Returns User if authentication successful, null otherwise
+     * @throws AuthenticationException If credentials are invalid
+     */
+    public function login($email, $password): ?User
     {
-        return User::find($email)->first();
+        try {
+            $user = User::where('email', $email)
+                ->where('status', 'active')
+                ->first();
+
+            if (!$user || !Hash::check($email, $user->password)) {
+                throw new AuthenticationException('Invalid credentials');
+            }
+        }catch (\Exception $e){
+            throw new AuthenticationException('Invalid credentials');
+        }
+
+        return $user;
     }
+
 
 
 }
