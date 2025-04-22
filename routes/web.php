@@ -33,13 +33,36 @@ Route::prefix('Authentication')->group(function () {
 
 // Client Routes
 Route::prefix('client')->group(function () {
-    Route::get('/Logout', function () {})->name('logout'); // Consider renaming to logout
-    Route::get('/preferences', function () {})->name('profile.preferences]x'); // Fix typo, probably 'profile.preferences'
-    Route::post('/products', [ClientController::class, 'update'])->name('profile.update'); // Consider more descriptive name
-    Route::get('/password-update', [ClientController::class, 'index'])->name('password.update'); // Consider more descriptive name and method (GET for update?)
-    Route::post('/two-factor/enable', [ClientController::class, 'enableTwoFactor'])->name('two-factor.enable');
-});
+    // Profile and preferences
+    Route::get('profile', function () {
+        return view('Client.ClientProfile');
+    })->name('profile');
+    Route::get('preferences', function () {
+        return view('Client.Preferences');
+    })->name('profile.preferences');
 
+    Route::get('/orders', function () {})->name('orders');
+    Route::get('/addresses', function () {})->name('addresses');
+    Route::get('/payments', function () {})->name('wishlist');
+
+    // Profile security and 2FA
+    Route::prefix('profile/security')->group(function () {
+        Route::post('two-factor', [ClientController::class, 'enableTwoFactor'])
+            ->name('two-factor.enable');
+        Route::delete('two-factor', [ClientController::class, 'disableTwoFactor'])
+            ->name('two-factor.disable');
+        Route::get('two-factor/status', [ClientController::class, 'getTwoFactorStatus'])
+            ->name('two-factor.status');
+    });
+
+    // Other routes
+    Route::get('password', [ClientController::class, 'showPasswordForm'])
+        ->name('password.update');
+    Route::put('profile', [ClientController::class, 'update'])
+        ->name('profile.update');
+    Route::post('logout', [UserController::class, 'logout'])
+        ->name('logout');
+});
 // Product Routes
 Route::prefix('product')->group(function () {
     Route::get('/{id}', [ProductController::class, 'show'])->name('products.show');
