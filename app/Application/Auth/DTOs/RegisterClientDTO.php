@@ -2,6 +2,8 @@
 
 namespace App\Application\Auth\DTOs;
 
+use Illuminate\Support\Facades\Hash;
+
 readonly class RegisterClientDTO
 {
     public function __construct(
@@ -22,7 +24,7 @@ readonly class RegisterClientDTO
 
     public function getPassword(): string
     {
-        return $this->password; // Fixed case sensitivity
+        return Hash::make($this->password); // Fixed case sensitivity
     }
 
     public function getRole(): string
