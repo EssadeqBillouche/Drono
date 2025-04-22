@@ -265,8 +265,8 @@
                                             </div>
                                         </div>
                                         <div class="flex justify-between mt-6 pt-4 border-t border-gray-100">
-                                            <a href="{{ route('orders.track', $order['id']) }}" class="text-primary hover:text-primary/80 font-medium text-sm">Track Package</a>
-                                            <a href="{{ route('orders.show', $order['id']) }}" class="text-[#2f2f2f] hover:text-[#2f2f2f]/80 font-medium text-sm">View Details</a>
+                                            <a href="" class="text-primary hover:text-primary/80 font-medium text-sm">Track Package</a>
+                                            <a href="" class="text-[#2f2f2f] hover:text-[#2f2f2f]/80 font-medium text-sm">View Details</a>
                                         </div>
                                     </div>
                                 @endforeach
@@ -308,7 +308,7 @@
                                                 <span class="px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded-full">{{ $order['status'] }}</span>
                                             </td>
                                             <td class="px-4 py-4 text-sm text-right">
-                                                <a href="{{ route('orders.show', $order['id']) }}" class="text-primary hover:text-primary/80 font-medium">Details</a>
+                                                <a href="" class="text-primary hover:text-primary/80 font-medium">Details</a>
                                             </td>
                                         </tr>
                                     @empty
