@@ -2,14 +2,9 @@
 
 namespace App\Presentation\Http\Requests\Auth;
 
-
-namespace App\Presentation\Http\Requests\Auth;
-
 use App\Application\Auth\DTOs\LoginUserDTO;
-use App\Application\Auth\DTOs\RegisterSellerDTO;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Storage;
+
 
 class LoginRequest extends FormRequest
 {
@@ -21,8 +16,8 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|email',
+            'email' => 'required|string|email|max:255',
+            'password' => 'required|string'
         ];
     }
 
