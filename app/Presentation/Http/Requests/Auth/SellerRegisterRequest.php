@@ -36,7 +36,7 @@ class SellerRegisterRequest extends FormRequest
             fullName: $this->input('name'),
             email: $this->input('email'),
             storeName: $this->input('store_name'),
-            password: Hash::make($this->input('password')),
+            password: $this->input('password'),
             storeProfileImage: $profileImagePath,
             storeBackgroundImage: $backgroundImagePath
         );

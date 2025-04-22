@@ -77,4 +77,40 @@ class Product
     {
         return $description;
     }
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->id,
+            'seller_id' => $this->sellerId,
+            'category_id' => $this->categoryId,
+            'name' => $this->name,
+            'slug' => $this->slug,
+            'description' => $this->description,
+            'price' => $this->price->getValue(),
+            'stock' => $this->stock->getValue(),
+            'is_active' => $this->isActive,
+            'images' => $this->images->getValue(),
+            'rating' => $this->rating,
+            'total_reviews' => $this->totalReviews
+        ];
+    }
+
+    // Add this static method to create a Product from an array
+    public static function fromArray(array $data): self
+    {
+        return new self(
+            id: $data['id'] ?? null,
+            sellerId: $data['seller_id'],
+            categoryId: $data['category_id'],
+            name: $data['name'],
+            slug: $data['slug'],
+            description: $data['description'],
+            price: new Price($data['price']),
+            stock: new Stock($data['stock']),
+            isActive: $data['is_active'],
+            images: new Image($data['images']),
+            rating: $data['rating'] ?? 0.0,
+            totalReviews: $data['total_reviews'] ?? 0
+        );
+    }
 }

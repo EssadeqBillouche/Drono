@@ -33,10 +33,9 @@ class UserDAO implements UserRepositoryInterface
 
     public function createSeller(Seller $seller): ?User{
 
-
         $sellerCreated = User::create([
             'email' => $seller->getEmail()->toString(),
-            'password' => $seller->getPassword(),
+            'password' => Hash::make($seller->getPassword()),
             'name' => $seller->getName(),
             'role' => 'seller',
             'status' => 'active',
