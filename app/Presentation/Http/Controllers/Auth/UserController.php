@@ -2,37 +2,44 @@
 
 namespace App\Presentation\Http\Controllers\Auth;
 
-use App\Application\Auth\DTOs\LoginUserDTO;
-use App\Application\Auth\UseCase\LoginUseCase;
-use App\Application\Auth\UseCase\TrackDelivery;
 use App\Presentation\Http\Controllers\Controller;
 use App\Presentation\Http\Requests\Auth\LoginRequest;
-use http\Env\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Hash;
+use App\Infrastructure\Persistence\Models\User;
 
 class UserController extends Controller
 {
-    public function __construct(private LoginUseCase $loginUseCase){}
-
     public function login(LoginRequest $request)
     {
-        $loginSuccess = $this->loginUseCase->login($request->toDTO());
-        if ($loginSuccess) {
+        $credentials = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required'
+        ]);
+
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+
             $user = Auth::user();
             return match($user->role) {
-                'admin' => Redirect::intended('/admin/dashboard'),
-                'seller' => Redirect::intended('/seller/dashboard'),
-                'client' => Redirect::intended('/client/dashboard'),
-                default => Redirect::intended('/')
+                'admin' => redirect('/admin/dashboard'),
+                'seller' => redirect('/seller/dashboard'),
+                'client' => redirect('/client/dashboard'),
+                default => redirect('/')
             };
         }
-        return Redirect::back()->withErrors([
-            'email' => 'Invalid credentials'
-        ]);
+
+        return back()
+            ->withErrors(['email' => 'Invalid credentials'])
+            ->onlyInput('email');
     }
-    public function logout(){
-        $this->loginUseCase->logout();
-        return redirect('/index')->with('success', 'Logout successful!');
+
+    public function logout()
+    {
+        Auth::logout();
+        request()->session()->invalidate();
+        request()->session()->regenerateToken();
+
+        return redirect('/')->with('success', 'Logout successful!');
     }
 }
