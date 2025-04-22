@@ -6,41 +6,57 @@ use App\Application\Auth\DTOs\LoginUserDTO;
 use App\Infrastructure\Persistence\DAOs\UserDAO;
 use App\Infrastructure\Persistence\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class LoginUseCase
 {
     private UserDAO $userDAO;
-    public function __construct( UserDAO $userDAO){
+
+    public function __construct(UserDAO $userDAO)
+    {
         $this->userDAO = $userDAO;
     }
 
-    public function Login(LoginUserDTO $dto): bool
+    /**
+     * @throws AuthenticationException
+     */
+    public function login(LoginUserDTO $dto): ?User
     {
-        return Auth::attempt([
-            'email' => $dto->email,
-            'password' => $dto->password
-        ]);
+        $user = $this->userDAO->login($dto->email, $dto->password);
+        if ($user) {
+            $this->startSession($user);
+        }
+        return $user;
     }
-    public function StartSession(User $user) : void{
-        session([
+
+    protected function startSession(User $user): void
+    {
+        $sessionData = [
             'user_id' => $user->id,
             'user_email' => $user->email,
             'user_name' => $user->name,
             'user_role' => $user->role,
             'user_status' => $user->status,
             'profile_image' => $user->profile_image
-        ]);
-        if ($user->role == 'seller'){
-            session([
-                'role' => $user->seller->role,
-                'status' => $user->seller->status
-            ]);
-        } // i will change it late to add more for session manangments
+        ];
 
-    }
-    public function logout(){
-        Auth::logout();
+        if ($user->role === Roles::SELLER && $user->seller) {
+            $sessionData['seller_role'] = $user->seller->role;
+            $sessionData['seller_status'] = $user->seller->status;
+        }
+
+        session($sessionData);
     }
 
-
+    public function logout(): void
+    {
+        try {
+            Auth::logout();
+            Session::flush();
+            Session::regenerate();
+        } catch (\Exception $e) {
+            // Log the error
+            throw new AuthenticationException('Logout failed: ' . $e->getMessage());
+        }
+    }
 }
