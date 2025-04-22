@@ -22,6 +22,32 @@
     </script>
 </head>
 <body class="min-h-screen bg-[#fff9f0]">
+<!-- Loading Screen -->
+<div id="preloader" class="fixed inset-0 z-50 flex items-center justify-center bg-white">
+    <img src="{{ asset('images/preloader.gif') }}" alt="Loading...">
+</div>
+
+<script>
+    // Hide preloader when page is loaded
+    window.addEventListener('load', function() {
+        document.getElementById('preloader').style.display = 'none';
+    });
+
+    // Show preloader when navigating
+    document.addEventListener('click', function(e) {
+        const link = e.target.closest('a');
+        if (link &&
+            link.href &&
+            !link.href.includes('#') &&
+            !link.href.includes('javascript:') &&
+            !e.ctrlKey &&
+            !e.metaKey &&
+            !link.target) {
+
+            document.getElementById('preloader').style.display = 'flex';
+        }
+    });
+</script>
 <div class="container mx-auto px-4 py-6">
     @include('Components.header')  <!-- Updated path -->
 
