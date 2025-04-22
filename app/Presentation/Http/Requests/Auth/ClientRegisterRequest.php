@@ -28,7 +28,7 @@ class clientRegisterRequest extends FormRequest
         return new RegisterClientDTO(
             name: $this->input('name'),
             email: $this->input('email'),
-            password: Hash::make($this->input('password')),
+            password:$this->input('password'),
         );
     }
 }

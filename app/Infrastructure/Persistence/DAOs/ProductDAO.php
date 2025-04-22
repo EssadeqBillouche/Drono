@@ -9,6 +9,7 @@ use App\Domain\Product\ValueObjects\Price;
 use App\Domain\Product\ValueObjects\Stock;
 use App\Domain\Product\ValueObjects\Image;
 use Exception;
+use http\Exception\InvalidArgumentException;
 
 class ProductDAO implements ProductRepositoryInterface
 {
@@ -17,7 +18,6 @@ class ProductDAO implements ProductRepositoryInterface
      */
     public function save(Product $product): Product
     {
-
         try {
             $model = ProductModel::create([
                 'seller_id' => $product->getSellerId(),
@@ -66,7 +66,6 @@ class ProductDAO implements ProductRepositoryInterface
             if (!$model) {
                 return null;
             }
-
             return new Product(
                 $model->id,
                 $model->seller_id,
@@ -85,9 +84,29 @@ class ProductDAO implements ProductRepositoryInterface
             throw new \Exception('Failed to find product: ' . $e->getMessage());
         }
     }
-    public function update(Product $product)
+    public function update(Product $product, int $productId): Product
     {
-        return true;
+        if ($product->getId() !== $productId) {
+            throw new InvalidArgumentException('Product ID mismatch');
+        }
+
+        $productModel = ProductModel::findOrFail($productId);
+
+        $productModel->update([
+            'name' => $product->getName(),
+            'description' => $product->getDescription(),
+            'price' => $product->getPrice()->getValue(),
+            'stock' => $product->getStock()->getValue(),
+            'is_active' => $product->isActive(),
+            'images' => $product->getImages()->getValue(),
+            'rating' => $product->getRating(),
+            'total_reviews' => $product->getTotalReviews()
+        ]);
+        return Product::fromArray($productModel->fresh()->toArray());
+    }
+    public function all()
+    {
+        return ProductModel::all();
     }
 }
 

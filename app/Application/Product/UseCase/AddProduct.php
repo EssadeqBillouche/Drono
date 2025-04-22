@@ -45,4 +45,8 @@ class AddProduct
         } catch (\Exception $e) {
             throw new \Exception('Product creation failed: ' . $e->getMessage());
         }
-    }}
+    }
+
+
+
+}

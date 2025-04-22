@@ -13,5 +13,5 @@ interface ProductRepositoryInterface
     public function delete(int $productId) : bool;
     public function findById(int $productId) : ?Product;
 
-    public function update(Product $product): Product;
+    public function update(Product $product, int $prouductId): Product;
 }
