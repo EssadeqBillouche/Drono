@@ -1,10 +1,7 @@
 <header class="flex justify-between items-center mb-6">
     <div class="flex items-center gap-3">
         <div class="relative w-8 h-8">
-            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="text-primary">
-                <path d="M19 10C19 11.8565 18.1045 13.637 16.5 14.8995C14.8955 16.162 12.7909 17 10.5 17C8.20914 17 6.10456 16.162 4.5 14.8995C2.89544 13.637 2 11.8565 2 10C2 8.14348 2.89544 6.36301 4.5 5.10051C6.10456 3.838 8.20914 3 10.5 3C12.7909 3 14.8955 3.838 16.5 5.10051C18.1045 6.36301 19 8.14348 19 10Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M12 3C12 3 14 1 16 1C18 1 20 2 20 4C20 6 19 7 19 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
+            <img src="{{ asset('Images/Logs/img_1.png') }}" alt="Drono Logo" class="w-full h-full object-cover">
         </div>
         <a href="/" class="text-2xl font-bold text-text hover:text-primary transition duration-200">Drono</a>
     </div>
@@ -47,7 +44,7 @@
                     <span class="hidden md:block text-sm font-medium">Account</span>
                 </button>
                 <!-- Dropdown Menu (Hidden by default, shown on hover/click) -->
-                <div class="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg py-2 z-10 hidden group-hover:block border border-gray-100">
+                <div class="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg py-2 z-40 hidden group-hover:block border border-gray-100">
                     <div class="px-4 py-2 border-b border-gray-100">
                         <p class="text-sm font-semibold text-text">Hello, {{ auth()->user()->name }}</p>
                         <p class="text-xs text-secondary truncate">{{ auth()->user()->email }}</p>
@@ -80,7 +77,7 @@
                     <span class="hidden md:block text-sm font-medium">Login</span>
                 </button>
                 <!-- Dropdown Menu (Hidden by default, shown on hover) -->
-                <div class="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg py-2 z-10 hidden group-hover:block border border-gray-100">
+                <div class="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg py-2 z-40 hidden group-hover:block border border-gray-100">
                     <div class="px-4 py-3 border-b border-gray-100">
                         <p class="text-sm font-medium text-text">Welcome to Drono</p>
                         <p class="text-xs text-secondary">Sign in for the best experience</p>
