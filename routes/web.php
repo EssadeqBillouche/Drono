@@ -12,6 +12,11 @@ Route::get('/test', function () {
 });
 
 
+Route::get('/', function () {
+    return view('Index');
+})->name('home');
+
+
 // Authentication Routes
 Route::prefix('Authentication')->group(function () {
     Route::post('/login', [UserController::class, 'login'])->name('login');
