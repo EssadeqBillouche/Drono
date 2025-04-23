@@ -165,17 +165,34 @@ function updateCartCount() {
 }
 
 // Update the cart total price
+// Update the cart total price
 function updateCartTotal() {
     cartTotal = cartItems.reduce((total, item) => {
         return total + (item.price * item.quantity);
     }, 0);
 
-    const totalElement = document.querySelector('#cartSidebar .font-bold');
-    if (totalElement) {
-        totalElement.textContent = `$${cartTotal.toFixed(2)}`;
+    // Calculate delivery fee (example: free for orders over $50, otherwise $5)
+    const deliveryFee = cartTotal > 50 ? 0 : 5;
+    const finalTotal = cartTotal + deliveryFee;
+
+    // Update subtotal in the footer price breakdown
+    const subtotalElement = document.querySelector('#cartSidebar .border-t .flex:first-child .font-bold');
+    if (subtotalElement) {
+        subtotalElement.textContent = `$${cartTotal.toFixed(2)}`;
+    }
+
+    // Update delivery fee if that element exists
+    const deliveryFeeElement = document.querySelector('#cartSidebar .delivery-fee');
+    if (deliveryFeeElement) {
+        deliveryFeeElement.textContent = `$${deliveryFee.toFixed(2)}`;
+    }
+
+    // Update total if that element exists
+    const finalTotalElement = document.querySelector('#cartSidebar .cart-total');
+    if (finalTotalElement) {
+        finalTotalElement.textContent = `$${finalTotal.toFixed(2)}`;
     }
 }
-
 // Render all items in the cart
 function renderCartItems() {
     const cartContainer = document.querySelector('#cartSidebar .p-4.overflow-y-auto');
