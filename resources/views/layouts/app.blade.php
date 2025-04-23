@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{{ asset('Images/logs/img_1.png') }}" sizes="any">
     <title>Drono - @yield('title')</title>
     @yield('css')
     <script src="https://cdn.tailwindcss.com"></script>
@@ -27,27 +28,6 @@
     <img src="{{ asset('images/preloader.gif') }}" alt="Loading...">
 </div>
 
-<script>
-    // Hide preloader when page is loaded
-    window.addEventListener('load', function() {
-        document.getElementById('preloader').style.display = 'none';
-    });
-
-    // Show preloader when navigating
-    document.addEventListener('click', function(e) {
-        const link = e.target.closest('a');
-        if (link &&
-            link.href &&
-            !link.href.includes('#') &&
-            !link.href.includes('javascript:') &&
-            !e.ctrlKey &&
-            !e.metaKey &&
-            !link.target) {
-
-            document.getElementById('preloader').style.display = 'flex';
-        }
-    });
-</script>
 <div class="container mx-auto px-4 py-6">
     @include('Components.header')  <!-- Updated path -->
 
@@ -133,5 +113,26 @@
 @include('Components.footer')
 
 @yield('script')
+<script>
+    // Hide preloader when page is loaded
+    window.addEventListener('load', function() {
+        document.getElementById('preloader').style.display = 'none';
+    });
+
+    // Show preloader when navigating
+    document.addEventListener('click', function(e) {
+        const link = e.target.closest('a');
+        if (link &&
+            link.href &&
+            !link.href.includes('#') &&
+            !link.href.includes('javascript:') &&
+            !e.ctrlKey &&
+            !e.metaKey &&
+            !link.target) {
+
+            document.getElementById('preloader').style.display = 'flex';
+        }
+    });
+</script>
 </body>
 </html>
