@@ -8,7 +8,7 @@
 
 @section('content')
     <!-- Category Navigation -->
-    <div class="bg-white border-b shadow-sm rounded-3xl mt-6 sticky top-0 z-15 -mx-4">
+    <div class="bg-white border-b shadow-sm rounded-3xl mt-6 sticky top-0 z-30 -mx-4">
         <div class="container mx-auto px-4 py-3 overflow-x-auto">
             <div class="flex gap-3 min-w-max">
                 <button class="category-pill active px-4 py-2 rounded-full text-sm font-medium bg-primary/10 text-primary">All</button>
@@ -400,7 +400,7 @@
                                             </svg>
                                         </button>
                                     </div>
-                                    <button onclick="addToCart({{$product['modal_id']}})" class="flex-1 bg-primary text-white py-2 px-6 rounded-lg hover:bg-primary/90
+                                    <button onclick="addToCart('{{$product['modal_id']}}')" class="flex-1 bg-primary text-white py-2 px-6 rounded-lg hover:bg-primary/90
                                          transition-colors flex items-center justify-center space-x-2 group">
                                         <svg class="w-5 h-5 group-hover:animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -426,172 +426,8 @@
 @endsection
 
 @section('script')
-    <script>
-        // Open a modal by ID with animation
-        function openModal(modalId) {
-            const modal = document.getElementById(modalId);
-            if (modal) {
-                // Reset modal position and fade in
-                modal.style.display = 'flex';
-                modal.style.opacity = '0';
-                modal.style.pointerEvents = 'auto';
+<script src="{{asset('js/catalog.js') }}"></script>
 
-                // Add entry animation for modal content
-                const modalContent = modal.querySelector('.modal-content');
-                if (modalContent) {
-                    modalContent.style.transform = 'scale(0.9)';
-                    modalContent.style.opacity = '0';
-                }
 
-                // Trigger reflow
-                window.getComputedStyle(modal).opacity;
 
-                // Animate modal background
-                modal.style.opacity = '1';
-
-                // Animate modal content
-                if (modalContent) {
-                    setTimeout(() => {
-                        modalContent.style.transform = 'scale(1)';
-                        modalContent.style.opacity = '1';
-                    }, 50);
-                }
-
-                modal.classList.add('active');
-                document.body.style.overflow = 'hidden';
-            }
-        }
-
-        // Close a modal by ID with animation
-        function closeModal(modalId) {
-            const modal = document.getElementById(modalId);
-            if (modal) {
-                // Add exit animation for modal content
-                const modalContent = modal.querySelector('.modal-content');
-                if (modalContent) {
-                    modalContent.style.transform = 'scale(0.9)';
-                    modalContent.style.opacity = '0';
-                }
-
-                // Fade out modal background
-                modal.style.opacity = '0';
-
-                // Remove active class and clean up
-                setTimeout(() => {
-                    modal.classList.remove('active');
-                    modal.style.pointerEvents = 'none';
-                    document.body.style.overflow = 'auto';
-                }, 300);
-            }
-        }
-
-        // Update quantity input
-        function updateQuantity(inputId, change) {
-            const input = document.getElementById(inputId);
-            if (input) {
-                let value = parseInt(input.value) + change;
-                if (value < 1) value = 1;
-                input.value = value;
-
-                // Optional: Add animation effect
-                input.style.transform = 'scale(1.2)';
-                setTimeout(() => {
-                    input.style.transform = 'scale(1)';
-                }, 200);
-            }
-        }
-
-        // Add to cart with animation
-        function addToCart(buttonId) {
-            const button = document.getElementById(buttonId);
-            if (button) {
-                // Change button text and style
-                const originalText = button.innerHTML;
-                button.innerHTML = '<svg class="w-5 h-5 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>';
-
-                setTimeout(() => {
-                    button.innerHTML = '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Added';
-                    button.classList.add('bg-green-600');
-
-                    // Show mini cart animation here if needed
-
-                    setTimeout(() => {
-                        button.innerHTML = originalText;
-                        button.classList.remove('bg-green-600');
-                    }, 2000);
-                }, 1000);
-            }
-        }
-
-        // Initialize when DOM is loaded
-        document.addEventListener('DOMContentLoaded', function () {
-            // Setup category pills
-            const categoryPills = document.querySelectorAll('.category-pill');
-            categoryPills.forEach(pill => {
-                pill.addEventListener('click', function() {
-                    // Remove active class from all pills
-                    categoryPills.forEach(p => p.classList.remove('active', 'bg-primary/10', 'text-primary'));
-                    p.classList.add('hover:bg-gray-100');
-
-                    // Add active class to clicked pill
-                    this.classList.add('active', 'bg-primary/10', 'text-primary');
-                    this.classList.remove('hover:bg-gray-100');
-
-                    // Add animation effect
-                    this.classList.add('scale-105');
-                    setTimeout(() => {
-                        this.classList.remove('scale-105');
-                    }, 300);
-
-                    // You would typically filter products here
-                });
-            });
-
-            // Ensure all modals are properly configured initially
-            document.querySelectorAll('.modal--window').forEach(modal => {
-                modal.classList.remove('active');
-                modal.style.display = 'none';
-            });
-
-            // Close modal when clicking outside content
-            document.querySelectorAll('.modal--window').forEach(modal => {
-                modal.addEventListener('click', function (e) {
-                    if (e.target === this) {
-                        closeModal(this.id);
-                    }
-                });
-            });
-
-            // Close modal with Escape key
-            document.addEventListener('keydown', function (e) {
-                if (e.key === 'Escape') {
-                    document.querySelectorAll('.modal--window.active').forEach(modal => {
-                        closeModal(modal.id);
-                    });
-                }
-            });
-
-            // Add click event to product cards
-            document.querySelectorAll('.product-card').forEach(card => {
-                card.addEventListener('click', function (e) {
-                    const modalId = this.getAttribute('data-modal');
-                    if (modalId) {
-                        openModal(modalId);
-                    }
-                });
-            });
-
-            // Optional: Animation when page loads
-            document.querySelectorAll('.product-card').forEach((card, index) => {
-                card.style.opacity = '0';
-                card.style.transform = 'translateY(20px)';
-
-                setTimeout(() => {
-                    card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-                    card.style.opacity = '1';
-                    card.style.transform = 'translateY(0)';
-                }, 100 + (index * 50));
-            });
-        });
-    </script>
 @endsection

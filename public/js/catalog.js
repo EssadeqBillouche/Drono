@@ -1,104 +1,106 @@
-// Open a modal by ID
+// Open a modal by ID with animation
 function openModal(modalId) {
-    console.log('Opening modal:', modalId); // Debug
     const modal = document.getElementById(modalId);
     if (modal) {
+        // Reset modal position and fade in
+        modal.style.display = 'flex';
+        modal.style.opacity = '0';
+        modal.style.pointerEvents = 'auto';
+
+        // Add entry animation for modal content
+        const modalContent = modal.querySelector('.modal-content');
+        if (modalContent) {
+            modalContent.style.transform = 'scale(0.9)';
+            modalContent.style.opacity = '0';
+        }
+
+        // Trigger reflow
+        window.getComputedStyle(modal).opacity;
+
+        // Animate modal background
+        modal.style.opacity = '1';
+
+        // Animate modal content
+        if (modalContent) {
+            setTimeout(() => {
+                modalContent.style.transform = 'scale(1)';
+                modalContent.style.opacity = '1';
+            }, 50);
+        }
+
         modal.classList.add('active');
         document.body.style.overflow = 'hidden';
-    } else {
-        console.error('Modal not found:', modalId);
     }
 }
 
-// Close a modal by ID
+// Close a modal by ID with animation
 function closeModal(modalId) {
     const modal = document.getElementById(modalId);
     if (modal) {
-        modal.classList.remove('active');
-        document.body.style.overflow = 'auto';
-    }
-}
+        // Add exit animation for modal content
+        const modalContent = modal.querySelector('.modal-content');
+        if (modalContent) {
+            modalContent.style.transform = 'scale(0.9)';
+            modalContent.style.opacity = '0';
+        }
 
-// Update main image in modal
-function updateMainImage(imageId, src, thumbnail) {
-    const mainImage = document.getElementById(imageId);
-    if (mainImage) {
-        mainImage.src = src;
-        const thumbnails = thumbnail.parentElement.querySelectorAll('.thumbnail');
-        thumbnails.forEach(t => t.classList.remove('active', 'border-primary'));
-        thumbnail.classList.add('active', 'border-primary');
-    }
-}
+        // Fade out modal background
+        modal.style.opacity = '0';
 
-// Update quantity input
-function updateQuantity(inputId, change) {
-    const input = document.getElementById(inputId);
-    if (input) {
-        let value = parseInt(input.value) + change;
-        if (value < 1) value = 1;
-        input.value = value;
-    }
-}
-
-// Add to cart with animation
-function addToCart(buttonId) {
-    const button = document.getElementById(buttonId);
-    if (button) {
-        button.classList.add('added');
+        // Remove active class and clean up
         setTimeout(() => {
-            button.classList.remove('added');
-        }, 1500);
-        alert('Added to cart!');
+            modal.classList.remove('active');
+            modal.style.pointerEvents = 'none';
+            document.body.style.overflow = 'auto';
+        }, 300);
     }
 }
 
 // Initialize when DOM is loaded
-document.addEventListener('DOMContentLoaded', function () {
-    // Ensure all modals are hidden initially
+document.addEventListener('DOMContentLoaded', function() {
+    // Ensure all modals are properly configured initially
     document.querySelectorAll('.modal--window').forEach(modal => {
         modal.classList.remove('active');
-        modal.style.display = 'flex';
-        modal.style.opacity = '0';
-        modal.style.pointerEvents = 'none';
+        modal.style.display = 'none';
     });
 
     // Close modal when clicking outside content
     document.querySelectorAll('.modal--window').forEach(modal => {
-        modal.addEventListener('click', function (e) {
+        modal.addEventListener('click', function(e) {
             if (e.target === this) {
-                this.classList.remove('active');
-                document.body.style.overflow = 'auto';
+                closeModal(this.id);
             }
         });
     });
 
     // Close modal with Escape key
-    document.addEventListener('keydown', function (e) {
+    document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') {
             document.querySelectorAll('.modal--window.active').forEach(modal => {
-                modal.classList.remove('active');
-                document.body.style.overflow = 'auto';
+                closeModal(modal.id);
             });
         }
     });
 
-    // Category pill selection
-    const categoryPills = document.querySelectorAll('.category-pill');
-    categoryPills.forEach(pill => {
-        pill.addEventListener('click', function () {
-            categoryPills.forEach(p => p.classList.remove('active'));
-            this.classList.add('active');
-        });
-    });
-
     // Add click event to product cards
     document.querySelectorAll('.product-card').forEach(card => {
-        card.addEventListener('click', function () {
-            console.log('Product card clicked:', this); // Debug
-            const modalId = this.getAttribute('data-modal') || this.getAttribute('onclick')?.match(/'([^']+)'/)?.[1];
+        card.addEventListener('click', function(e) {
+            const modalId = this.getAttribute('data-modal');
             if (modalId) {
                 openModal(modalId);
             }
         });
+    });
+
+    // Optional: Animation when page loads
+    document.querySelectorAll('.product-card').forEach((card, index) => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(20px)';
+
+        setTimeout(() => {
+            card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            card.style.opacity = '1';
+            card.style.transform = 'translateY(0)';
+        }, 100 + (index * 50));
     });
 });
