@@ -400,7 +400,7 @@
                                             </svg>
                                         </button>
                                     </div>
-                                    <button onclick="addToCart({{$product['modal_id']}})" class="flex-1 bg-primary text-white py-2 px-6 rounded-lg hover:bg-primary/90
+                                    <button onclick="addToCart('{{$product['modal_id']}}')" class="flex-1 bg-primary text-white py-2 px-6 rounded-lg hover:bg-primary/90
                                          transition-colors flex items-center justify-center space-x-2 group">
                                         <svg class="w-5 h-5 group-hover:animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -427,4 +427,7 @@
 
 @section('script')
 <script src="{{asset('js/catalog.js') }}"></script>
+
+
+
 @endsection
