@@ -146,15 +146,13 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            @foreach($products as $product)
-                <div class="product-card bg-white rounded-xl overflow-hidden shadow hover:shadow-lg transition-all cursor-pointer group" data-modal="{{ $product['modal_id'] }}">
+            @foreach($allproducts as $product)
+                <div class="product-card bg-white rounded-xl overflow-hidden shadow hover:shadow-lg transition-all cursor-pointer group" data-modal="product-{{ $product->id }}">
                     <div class="relative h-56 bg-gray-100 overflow-hidden">
-                        {{-- Product Image with hover effect --}}
-                        <img src="{{ $product['product']['image'] }}"
-                             alt="{{ $product['product']['name'] }}"
+                        <img src="/path/to/default-image.jpg"
+                             alt="{{ $product->name }}"
                              class="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300">
 
-                        {{-- Quick action buttons --}}
                         <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-4">
                             <button class="bg-white text-primary p-2 rounded-full hover:bg-primary hover:text-white transition-colors">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -174,19 +172,16 @@
                             </button>
                         </div>
 
-                        {{-- Vendor Badge --}}
                         <div class="vendor-badge absolute top-3 left-3 w-8 h-8 rounded-full overflow-hidden border-2 border-white shadow-md">
-                            <img src="{{ $product['vendor']['image'] }}"
-                                 alt="{{ $product['vendor']['name'] }}"
+                            <img src="{{ $product->store_profile ?? '/path/to/default-store-image.jpg' }}"
+                                 alt="{{ $product->store_name }}"
                                  class="w-full h-full object-cover">
                         </div>
 
-                        {{-- Category Badge --}}
                         <span class="absolute top-3 right-3 bg-blue-100 text-blue-800 px-2.5 py-1 text-xs font-semibold rounded-full">
-                            {{ $product['product']['category'] }}
-                        </span>
+                        {{ $product->category_name }}
+                    </span>
 
-                        {{-- Delivery Info --}}
                         <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-3">
                             <div class="flex items-center justify-between text-white">
                                 <div class="flex items-center">
@@ -194,49 +189,39 @@
                                         <circle cx="12" cy="12" r="10" />
                                         <polyline points="12 6 12 12 16 14" />
                                     </svg>
-                                    <span class="text-xs">{{ $product['delivery']['time'] }}</span>
+                                    <span class="text-xs">Fast Delivery</span>
                                 </div>
                                 <div class="flex items-center">
                                     <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path d="M12 2L12 6M4.93 10.93L7.76 8.76M19.07 10.93L16.24 8.76M2 17H22M4 17V21M20 17V21" />
                                     </svg>
-                                    <span class="text-xs">{{ $product['delivery']['method'] }}</span>
+                                    <span class="text-xs">Express</span>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <div class="p-5">
-                        {{-- Product Name --}}
                         <h3 class="font-semibold text-lg text-gray-800 mb-1 group-hover:text-primary transition-colors">
-                            {{ $product['product']['name'] }}
+                            {{ $product->name }}
                         </h3>
 
-                        {{-- Description --}}
                         <p class="text-gray-600 text-sm mb-4 line-clamp-2">
-                            {{ $product['product']['description'] }}
+                            {{ $product->description }}
                         </p>
 
                         <div class="flex justify-between items-center">
-                            {{-- Price --}}
                             <div class="flex flex-col">
-                                <span class="text-primary font-bold text-lg">${{ $product['pricing']['current_price'] }}</span>
-                                @if($product['pricing']['save_amount'] > 0)
-                                    <div class="flex items-center gap-1.5">
-                                        <span class="text-gray-400 text-xs line-through">${{ $product['pricing']['original_price'] }}</span>
-                                        <span class="bg-green-100 text-green-700 text-xs px-1.5 py-0.5 rounded-sm">-{{ round(($product['pricing']['save_amount'] / $product['pricing']['original_price']) * 100) }}%</span>
-                                    </div>
-                                @endif
+                                <span class="text-primary font-bold text-lg">${{ $product->price }}</span>
                             </div>
 
-                            {{-- Rating --}}
                             <div class="flex items-center bg-gray-50 px-2 py-1 rounded-lg">
                                 <div class="text-yellow-400 mr-1.5">
                                     <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
                                         <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
                                     </svg>
                                 </div>
-                                <span class="text-xs font-medium text-gray-700">{{ $product['ratings']['score'] }}</span>
+                                <span class="text-xs font-medium text-gray-700">{{ $product->rating }}</span>
                             </div>
                         </div>
                     </div>
@@ -244,45 +229,31 @@
             @endforeach
         </div>
 
-        {{-- Enhanced Modals --}}
-        @foreach($products as $product)
+        @foreach($allproducts as $product)
             <div class="modal--window hidden fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm z-50 flex items-center justify-center p-4"
-                 id="{{ $product['modal_id'] }}">
+                 id="product-{{ $product->id }}">
                 <div class="modal-content bg-white w-full max-w-4xl rounded-xl shadow-xl overflow-hidden transform transition-all">
                     <div class="flex h-full flex-col md:flex-row">
-                        {{-- Left Side - Images with enhanced gallery --}}
                         <div class="md:w-1/2 bg-gray-50 p-6">
                             <div class="relative aspect-square mb-4 rounded-lg overflow-hidden border border-gray-100">
-                                <img src="{{ $product['product']['image'] }}"
-                                     alt="{{ $product['product']['name'] }}"
+                                <img src="/path/to/default-image.jpg"
+                                     alt="{{ $product->name }}"
                                      class="w-full h-full object-contain">
                                 <div class="absolute top-4 left-4">
                                     <div class="flex items-center bg-white rounded-full px-3 py-1 shadow-md">
-                                        <img src="{{ $product['vendor']['image'] }}"
-                                             alt="{{ $product['vendor']['name'] }}"
+                                        <img src="{{ $product->store_profile ?? '/path/to/default-store-image.jpg' }}"
+                                             alt="{{ $product->store_name }}"
                                              class="w-6 h-6 rounded-full">
-                                        <span class="ml-2 text-sm font-medium">{{ $product['vendor']['name'] }}</span>
+                                        <span class="ml-2 text-sm font-medium">{{ $product->store_name }}</span>
                                     </div>
                                 </div>
                             </div>
-
-                            {{-- Enhanced Thumbnails --}}
-                            <div class="grid grid-cols-4 gap-2">
-                                @foreach($product['product']['images'] ?? [] as $image)
-                                    <div class="aspect-square rounded-lg overflow-hidden cursor-pointer hover:opacity-75 border border-gray-100 transition-all hover:border-primary">
-                                        <img src="{{ $image }}"
-                                             alt="Product thumbnail"
-                                             class="w-full h-full object-cover">
-                                    </div>
-                                @endforeach
-                            </div>
                         </div>
 
-                        {{-- Right Side - Details with improved layout --}}
                         <div class="md:w-1/2 p-6 md:overflow-y-auto" style="max-height: 80vh;">
                             <div class="flex justify-between items-start">
                                 <div>
-                                    <h2 class="text-2xl font-bold text-gray-800">{{ $product['product']['name'] }}</h2>
+                                    <h2 class="text-2xl font-bold text-gray-800">{{ $product->name }}</h2>
                                     <div class="flex items-center mt-1.5">
                                         <div class="flex text-yellow-400">
                                             @for($i = 0; $i < 5; $i++)
@@ -292,11 +263,11 @@
                                             @endfor
                                         </div>
                                         <span class="ml-2 text-sm text-gray-600">
-                                            {{ $product['ratings']['score'] }} ({{ $product['ratings']['total_reviews'] }} reviews)
-                                        </span>
+                                        {{ $product->rating }} ({{ $product->total_reviews }} reviews)
+                                    </span>
                                     </div>
                                 </div>
-                                <button onclick="closeModal('{{ $product['modal_id'] }}')"
+                                <button onclick="closeModal('product-{{ $product->id }}')"
                                         class="text-gray-400 hover:text-gray-600 transition-colors p-2 hover:bg-gray-100 rounded-full">
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
@@ -304,87 +275,31 @@
                                 </button>
                             </div>
 
-                            {{-- Pricing with badges --}}
                             <div class="mt-6 bg-gray-50 p-4 rounded-xl">
                                 <div class="flex items-center space-x-3">
-                                    <span class="text-3xl font-bold text-primary">${{ $product['pricing']['current_price'] }}</span>
-                                    @if($product['pricing']['save_amount'] > 0)
-                                        <span class="text-lg text-gray-400 line-through">${{ $product['pricing']['original_price'] }}</span>
-                                        <span class="bg-green-100 text-green-800 text-sm px-2.5 py-1 rounded-full">
-                                            Save ${{ $product['pricing']['save_amount'] }}
-                                        </span>
-                                    @endif
-                                </div>
-                                <div class="flex gap-2 mt-3">
-                                    <span class="bg-blue-50 text-blue-700 text-xs px-2.5 py-1 rounded-full flex items-center">
-                                        <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
-                                        </svg>
-                                        Free Returns
-                                    </span>
-                                    <span class="bg-purple-50 text-purple-700 text-xs px-2.5 py-1 rounded-full flex items-center">
-                                        <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                        </svg>
-                                        Limited Time Offer
-                                    </span>
+                                    <span class="text-3xl font-bold text-primary">${{ $product->price }}</span>
                                 </div>
                             </div>
 
-                            {{-- Enhanced product description --}}
                             <div class="mt-6">
                                 <h3 class="font-medium text-gray-800 mb-2">Product Description</h3>
-                                <p class="text-gray-600 leading-relaxed">{{ $product['product']['description'] }}</p>
+                                <p class="text-gray-600 leading-relaxed">{{ $product->description }}</p>
                             </div>
 
-                            {{-- Delivery Info with improved styling --}}
-                            <div class="mt-6 bg-gray-50 rounded-xl p-4">
-                                <h3 class="font-medium text-gray-800 mb-3">Delivery Information</h3>
-                                <div class="grid grid-cols-2 gap-4">
-                                    <div class="flex items-center">
-                                        <div class="bg-white p-2 rounded-full mr-3 shadow-sm">
-                                            <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <circle cx="12" cy="12" r="10"/>
-                                                <polyline points="12 6 12 12 16 14"/>
-                                            </svg>
-                                        </div>
-                                        <div>
-                                            <p class="text-xs text-gray-500">Estimated Time</p>
-                                            <p class="text-sm font-medium">{{ $product['delivery']['time'] }}</p>
-                                        </div>
-                                    </div>
-                                    <div class="flex items-center">
-                                        <div class="bg-white p-2 rounded-full mr-3 shadow-sm">
-                                            <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path d="M12 2L12 6M4.93 10.93L7.76 8.76M19.07 10.93L16.24 8.76M2 17H22M4 17V21M20 17V21"/>
-                                            </svg>
-                                        </div>
-                                        <div>
-                                            <p class="text-xs text-gray-500">Method</p>
-                                            <p class="text-sm font-medium">{{ $product['delivery']['method'] }}</p>
-                                        </div>
-                                    </div>
+                            <div class="mt-6 grid grid-cols-2 gap-3">
+                                <div class="bg-gray-50 p-3 rounded-lg text-center">
+                                    <span class="text-xs text-gray-500 block mb-1">Stock</span>
+                                    <span class="text-sm font-medium {{ $product->stock > 0 ? 'text-green-600' : 'text-red-600' }}">
+                                    {{ $product->stock }} units
+                                </span>
+                                </div>
+                                <div class="bg-gray-50 p-3 rounded-lg text-center">
+                                    <span class="text-xs text-gray-500 block mb-1">Store</span>
+                                    <span class="text-sm font-medium">{{ $product->store_name }}</span>
                                 </div>
                             </div>
 
-                            {{-- Add to Cart Section with improved interaction --}}
                             <div class="mt-6 flex flex-col space-y-4">
-                                <div class="grid grid-cols-2 gap-3">
-                                    <div class="bg-gray-50 p-3 rounded-lg text-center">
-                                        <span class="text-xs text-gray-500 block mb-1">Availability</span>
-                                        <span class="text-sm font-medium text-green-600 flex justify-center items-center">
-                                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                                            </svg>
-                                            In Stock
-                                        </span>
-                                    </div>
-                                    <div class="bg-gray-50 p-3 rounded-lg text-center">
-                                        <span class="text-xs text-gray-500 block mb-1">Vendor</span>
-                                        <span class="text-sm font-medium">{{ $product['vendor']['name'] }}</span>
-                                    </div>
-                                </div>
-
                                 <div class="flex space-x-4">
                                     <div class="flex border border-gray-300 rounded-lg">
                                         <button class="px-3 py-2 text-gray-600 hover:text-primary transition-colors">
@@ -400,8 +315,8 @@
                                             </svg>
                                         </button>
                                     </div>
-                                    <button onclick="addToCart('{{$product['modal_id']}}')" class="flex-1 bg-primary text-white py-2 px-6 rounded-lg hover:bg-primary/90
-                                         transition-colors flex items-center justify-center space-x-2 group">
+                                    <button onclick="addToCart('product-{{$product->id}}')"
+                                            class="flex-1 bg-primary text-white py-2 px-6 rounded-lg hover:bg-primary/90 transition-colors flex items-center justify-center space-x-2 group">
                                         <svg class="w-5 h-5 group-hover:animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                   d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
