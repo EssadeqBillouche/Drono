@@ -49,7 +49,7 @@ class Product extends Model
     // Relationships
     public function seller(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'seller_id');
+        return $this->belongsTo(Seller::class, 'seller_id');
     }
     public function images(): HasMany
     {
