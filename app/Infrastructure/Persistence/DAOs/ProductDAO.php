@@ -19,6 +19,7 @@ class ProductDAO implements ProductRepositoryInterface
      */
     public function save(Product $product): Product
     {
+        dd($product->getImages()->getValue());
         try {
             $model = ProductModel::create([
                 'seller_id' => $product->getSellerId(),
