@@ -281,8 +281,8 @@
 
                         <!-- Active Status -->
                         <div>
-                            <label for="is_active" class="block text-sm font-medium text-gray-700">Status</label>
-                            <select id="is_active" name="is_active"
+                            <label for="isActive" class="block text-sm font-medium text-gray-700">Status</label>
+                            <select id="isActive" name="isActive"
                                     class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm">
                                 <option value="1" {{ old('is_active', true) ? 'selected' : '' }}>Active</option>
                                 <option value="0" {{ old('is_active') === '0' ? 'selected' : '' }}>Inactive</option>
