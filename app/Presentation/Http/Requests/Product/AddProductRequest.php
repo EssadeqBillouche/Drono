@@ -31,11 +31,11 @@ class AddProductRequest extends FormRequest
 
     public function toDTO(): AddProductDTO
     {
-        $imagePath = Storage::putFile('products', $this->file('images'));
+        $imagePath = Storage::disk('public')->putFile('products', $this->file('image'));
 
         return new AddProductDTO(
-            sellerId: auth()->user()->id,
-            categoryId: $this->validated('categoryId'),
+            sellerId: 5,
+            categoryId: 2,
             name: $this->validated('name'),
             slug: Str::slug($this->validated('name')),
             description: $this->validated('description'),
