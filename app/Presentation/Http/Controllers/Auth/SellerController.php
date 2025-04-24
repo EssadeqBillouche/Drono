@@ -22,7 +22,7 @@ class SellerController extends Controller
     {
         try {
             $this->registerSellerUseCase->RegisterSeller($request->toDTO());
-            return redirect()->route('SellerProfile')->with('success', 'Registration successful!');
+            return redirect()->route('login')->with('success', 'Registration successful!');
 
         } catch (\Exception $e) {
             return back()

@@ -36,9 +36,9 @@ class UserController extends Controller
             }
 
             return match($user->role) {
-                'admin' => redirect('/admin/dashboard'),
-                'seller' => redirect('/seller/dashboard'),
-                'client' => redirect('/client/dashboard'),
+                'admin' => redirect()->route('admin.dashboard'),
+                'seller' => redirect()->route('seller.dashboard'),
+                'client' => redirect()->route('client.dashboard'),
                 default => redirect('/')
             };
         }
