@@ -101,13 +101,15 @@ Route::prefix('payment')->group(function () {
 });
 
 // Seller Dashboard Route (Move closer to other seller routes)
-Route::get('/seller/dashboard', [SellerController::class, 'index'])->name('seller.dashboard');
-Route::get('/seller/products', [SellerController::class, 'products'])->name('seller.products');
-Route::get('/seller/orders', [SellerController::class, 'orders'])->name('seller.orders');
-Route::get('/seller/analytics', [SellerController::class, 'analytics'])->name('seller.analytics');
-Route::get('/seller/customers', [SellerController::class, 'customer'])->name('seller.customers');
-Route::get('/seller/reviews', [SellerController::class, 'settings'])->name('seller.reviews');
-Route::get('/seller/settings', [SellerController::class, 'settings'])->name('seller.settings');
+Route::prefix('seller')->group(function () {
+    Route::get('/dashboard', [SellerController::class, 'index'])->name('seller.dashboard');
+    Route::get('/products', [SellerController::class, 'products'])->name('seller.products');
+    Route::get('/orders', [SellerController::class, 'orders'])->name('seller.orders');
+    Route::get('/analytics', [SellerController::class, 'analytics'])->name('seller.analytics');
+    Route::get('/customers', [SellerController::class, 'customer'])->name('seller.customers');
+    Route::get('/reviews', [SellerController::class, 'settings'])->name('seller.reviews');
+    Route::get('/settings', [SellerController::class, 'settings'])->name('seller.settings');
+});
 
 
 
