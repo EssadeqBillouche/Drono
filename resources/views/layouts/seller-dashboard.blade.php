@@ -92,8 +92,8 @@
                         TG
                     </div>
                     <div class="ml-3">
-                        <p class="text-sm font-medium text-text">TechGadgets</p>
-                        <p class="text-xs text-secondary">Premium Tech Store</p>
+                        <p class="text-sm font-medium text-text"> {{ auth()->user()->name }}}</p>
+                        <p class="text-xs text-secondary">Premium Store</p>
                     </div>
                 </div>
             </div>
