@@ -41,4 +41,8 @@ class Seller extends Model
     {
         return \Database\Factories\SellerFactory::new();
     }
+    public function store()
+    {
+        return $this->belongsTo(Store::class, 'store_id');
+    }
 }
