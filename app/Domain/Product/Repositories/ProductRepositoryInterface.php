@@ -14,4 +14,6 @@ interface ProductRepositoryInterface
     public function findById(int $productId) : ?Product;
 
     public function update(Product $product, int $prouductId): Product;
+
+    public function all();
 }
