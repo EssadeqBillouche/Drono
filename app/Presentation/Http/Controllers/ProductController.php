@@ -3,13 +3,14 @@
 namespace App\Presentation\Http\Controllers;
 
 use App\Application\Product\UseCase\AddProduct;
+use App\Application\Product\UseCase\GetProductUseCase;
 use App\Presentation\Http\Requests\Product\AddProductRequest;
 use Illuminate\Support\Facades\Log;
 
 class ProductController extends Controller
 {
     public function __construct(
-        private AddProduct $addProductUseCase
+        private AddProduct $addProductUseCase, private GetProductUseCase $getProductUseCase
     ) {}
 
     public function index()
@@ -44,6 +45,9 @@ class ProductController extends Controller
             ]
 
         ];
+
+        $allproducts = $this->getProductUseCase->getAllProduct();
+        dd($allproducts);
 
         return view('catalog', compact('products'));
     }
