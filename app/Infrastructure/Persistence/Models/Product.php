@@ -34,7 +34,6 @@ class Product extends Model
         'price' => 'decimal:2',
         'stock' => 'integer',
         'is_active' => 'boolean',
-        'images' => 'array',
         'rating' => 'decimal:2',
         'total_reviews' => 'integer'
     ];
