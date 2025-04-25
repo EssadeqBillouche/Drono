@@ -115,7 +115,7 @@ Route::prefix('seller')->group(function () {
 
 // General/Public Routes
 Route::get('/', function () {
-    return view('index');
+    return view('Index');
 })->name('index');
 
 Route::get('/cart', function () {
@@ -125,7 +125,7 @@ Route::get('/cart', function () {
 Route::get('/catalog', [ProductController::class, 'index'])->name('catalog'); // 'products.index' might be better
 
 // Checkout Routes
-Route::prefix('checkout')->group(function () {
+Route::prefix('/checkout')->group(function () {
     Route::get('/', function () { return view('checkout'); })->name('checkout'); // 'checkout.index' might be better
     Route::get('/shipping', function () { return view('checkout.shipping'); })->name('checkout.shipping');
 });
