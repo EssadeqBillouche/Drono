@@ -10,6 +10,7 @@ use App\Domain\Product\ValueObjects\Stock;
 use App\Domain\Product\ValueObjects\Image;
 use Exception;
 use http\Exception\InvalidArgumentException;
+use Illuminate\Support\Facades\DB;
 
 class ProductDAO implements ProductRepositoryInterface
 {
@@ -104,9 +105,22 @@ class ProductDAO implements ProductRepositoryInterface
         ]);
         return Product::fromArray($productModel->fresh()->toArray());
     }
-    public function all()
-    {
-        return ProductModel::all();
+    public function all(){
+        $query = DB::table('products')
+            ->select(
+                'products.*',
+                'sellers.*',
+                'sellers.store_profile',
+                'categories.name as category_name'
+            )
+            ->join('sellers', 'products.seller_id', '=', 'sellers.id')
+            ->join('categories', 'products.category_id', '=', 'categories.id');
+
+        // Debug the query
+        \Log::info($query->toSql());
+        \Log::info($query->getBindings());
+
+        return $query->get();
     }
 }
 

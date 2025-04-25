@@ -71,7 +71,7 @@ Route::prefix('client')->group(function () {
 // Product Routes
 Route::prefix('product')->group(function () {
     Route::get('/{id}', [ProductController::class, 'show'])->name('products.show');
-    Route::post('/', [ProductController::class, 'update'])->name('product.store'); // POST method for 'store' is unconventional. Consider 'product.create'
+    Route::post('/', [ProductController::class, 'store'])->name('product.store'); // POST method for 'store' is unconventional. Consider 'product.create'
 });
 
 
@@ -101,19 +101,21 @@ Route::prefix('payment')->group(function () {
 });
 
 // Seller Dashboard Route (Move closer to other seller routes)
-Route::get('/seller/dashboard', [SellerController::class, 'dashboard'])->name('seller.dashboard');
-Route::get('/seller/products', [SellerController::class, 'products'])->name('seller.products');
-Route::get('/seller/orders', [SellerController::class, 'orders'])->name('seller.orders');
-Route::get('/seller/analytics', [SellerController::class, 'settings'])->name('seller.analytics');
-Route::get('/seller/customers', [SellerController::class, 'settings'])->name('seller.customers');
-Route::get('/seller/reviews', [SellerController::class, 'settings'])->name('seller.reviews');
-Route::get('/seller/settings', [SellerController::class, 'settings'])->name('seller.settings');
+Route::prefix('seller')->group(function () {
+    Route::get('/dashboard', [SellerController::class, 'index'])->name('seller.dashboard');
+    Route::get('/products', [SellerController::class, 'products'])->name('seller.products');
+    Route::get('/orders', [SellerController::class, 'orders'])->name('seller.orders');
+    Route::get('/analytics', [SellerController::class, 'analytics'])->name('seller.analytics');
+    Route::get('/customers', [SellerController::class, 'customer'])->name('seller.customers');
+    Route::get('/reviews', [SellerController::class, 'settings'])->name('seller.reviews');
+    Route::get('/settings', [SellerController::class, 'settings'])->name('seller.settings');
+});
 
 
 
 // General/Public Routes
 Route::get('/', function () {
-    return view('index');
+    return view('Index');
 })->name('index');
 
 Route::get('/cart', function () {
@@ -123,7 +125,7 @@ Route::get('/cart', function () {
 Route::get('/catalog', [ProductController::class, 'index'])->name('catalog'); // 'products.index' might be better
 
 // Checkout Routes
-Route::prefix('checkout')->group(function () {
+Route::prefix('/checkout')->group(function () {
     Route::get('/', function () { return view('checkout'); })->name('checkout'); // 'checkout.index' might be better
     Route::get('/shipping', function () { return view('checkout.shipping'); })->name('checkout.shipping');
 });

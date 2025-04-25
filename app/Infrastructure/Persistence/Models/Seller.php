@@ -41,4 +41,5 @@ class Seller extends Model
     {
         return \Database\Factories\SellerFactory::new();
     }
+
 }

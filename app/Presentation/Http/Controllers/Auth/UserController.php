@@ -21,10 +21,24 @@ class UserController extends Controller
             $request->session()->regenerate();
 
             $user = Auth::user();
+
+            if ($user->role === 'seller') {
+                $seller = $user->seller;
+                $sellerData = [
+                    'id' => $seller->id,
+                    'store_name' => $seller->store_name,
+                    'store_category' => $seller->store_category,
+                    'store_profile' => $seller->store_profile,
+                    'store_background_image' => $seller->store_background_image,
+                    'description' => $seller->description,
+                    'contact_phone' => $seller->contact_phone,
+                ];
+            }
+
             return match($user->role) {
-                'admin' => redirect('/admin/dashboard'),
-                'seller' => redirect('/seller/dashboard'),
-                'client' => redirect('/client/dashboard'),
+                'admin' => redirect()->route('admin.dashboard'),
+                'seller' => redirect()->route('seller.dashboard'),
+                'client' => redirect()->route('client.dashboard'),
                 default => redirect('/')
             };
         }

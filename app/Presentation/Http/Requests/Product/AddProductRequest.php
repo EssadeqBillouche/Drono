@@ -17,28 +17,25 @@ class AddProductRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'sellerId' => 'required|integer',
-            'categoryId' => 'required|integer',
+            'category_id' => 'required|integer',
             'name' => 'required|string|max:255',
             'slug' => 'nullable|string|max:255',
             'description' => 'string',
             'price' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
             'isActive' => 'required|boolean',
-            'images' => 'required|image', // Assuming 'images' is now a file upload
+            'image' => 'required|image', // Assuming 'images' is now a file upload
         ];
     }
 
 
     public function toDTO(): AddProductDTO
     {
-        // Upload the image and get the path
-        $imagePath = Storage::putFile('product_images', $this->file('images'));
-
+        $imagePath = Storage::disk('public')->putFile('products', $this->file('image'));
 
         return new AddProductDTO(
-            sellerId: $this->validated('sellerId'),
-            categoryId: $this->validated('categoryId'),
+            sellerId: auth()->id(),
+            categoryId: $this->validated('category_id'),
             name: $this->validated('name'),
             slug: Str::slug($this->validated('name')),
             description: $this->validated('description'),

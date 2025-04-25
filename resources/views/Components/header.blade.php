@@ -44,7 +44,7 @@
                     <span class="hidden md:block text-sm font-medium">Account</span>
                 </button>
                 <!-- Dropdown Menu (Hidden by default, shown on hover/click) -->
-                <div class="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg py-2 z-40 hidden group-hover:block border border-gray-100">
+                <div class="absolute right-0 mt-2 w-56 bg-white  rounded-lg shadow-lg py-2 z-40 hidden group-hover:block border border-gray-100">
                     <div class="px-4 py-2 border-b border-gray-100">
                         <p class="text-sm font-semibold text-text">Hello, {{ auth()->user()->name }}</p>
                         <p class="text-xs text-secondary truncate">{{ auth()->user()->email }}</p>

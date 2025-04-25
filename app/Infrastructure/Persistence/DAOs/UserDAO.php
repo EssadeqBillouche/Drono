@@ -45,6 +45,7 @@ class UserDAO implements UserRepositoryInterface
             'store_name' => $seller->getStoreName(),
             'store_background_image' => $seller->getStoreBackgroundImage(),
             'store_address' => 'fsdlfsdlsfd',
+            'store_category' => 'grocery',
             'store_profile' => $seller->getStoreImage(),
             'contact_phone' => '0684838438',
             'description' => 'fjskdfskld',

@@ -34,7 +34,6 @@ class Product extends Model
         'price' => 'decimal:2',
         'stock' => 'integer',
         'is_active' => 'boolean',
-        'images' => 'array',
         'rating' => 'decimal:2',
         'total_reviews' => 'integer'
     ];
@@ -49,7 +48,7 @@ class Product extends Model
     // Relationships
     public function seller(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'seller_id');
+        return $this->belongsTo(Seller::class, 'seller_id');
     }
     public function images(): HasMany
     {
