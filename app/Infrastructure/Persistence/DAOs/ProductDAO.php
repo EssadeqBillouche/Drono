@@ -19,7 +19,6 @@ class ProductDAO implements ProductRepositoryInterface
      */
     public function save(Product $product): Product
     {
-        dd($product->getImages()->getValue());
         try {
             $model = ProductModel::create([
                 'seller_id' => $product->getSellerId(),
@@ -107,16 +106,21 @@ class ProductDAO implements ProductRepositoryInterface
         return Product::fromArray($productModel->fresh()->toArray());
     }
     public function all(){
-        return DB::table('products')
+        $query = DB::table('products')
             ->select(
                 'products.*',
-                'sellers.store_name',
+                'sellers.*',
                 'sellers.store_profile',
                 'categories.name as category_name'
             )
             ->join('sellers', 'products.seller_id', '=', 'sellers.id')
-            ->join('categories', 'products.category_id', '=', 'categories.id')
-            ->get();
+            ->join('categories', 'products.category_id', '=', 'categories.id');
+
+        // Debug the query
+        \Log::info($query->toSql());
+        \Log::info($query->getBindings());
+
+        return $query->get();
     }
 }
 
