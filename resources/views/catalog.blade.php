@@ -145,11 +145,11 @@
             </div>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             @foreach($allproducts as $product)
                 <div class="product-card bg-white rounded-xl overflow-hidden shadow hover:shadow-lg transition-all cursor-pointer group" data-modal="product-{{ $product->id }}">
                     <div class="relative h-56 bg-gray-100 overflow-hidden">
-                        <img src="/path/to/default-image.jpg"
+                        <img src="{{ asset('storage/'.$product->images) }}"
                              alt="{{ $product->name }}"
                              class="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300">
 
@@ -173,7 +173,7 @@
                         </div>
 
                         <div class="vendor-badge absolute top-3 left-3 w-8 h-8 rounded-full overflow-hidden border-2 border-white shadow-md">
-                            <img src="{{ $product->store_profile ?? '/path/to/default-store-image.jpg' }}"
+                            <img src="{{ asset($product->store_profile)  }}"
                                  alt="{{ $product->store_name }}"
                                  class="w-full h-full object-cover">
                         </div>
@@ -236,12 +236,12 @@
                     <div class="flex h-full flex-col md:flex-row">
                         <div class="md:w-1/2 bg-gray-50 p-6">
                             <div class="relative aspect-square mb-4 rounded-lg overflow-hidden border border-gray-100">
-                                <img src="/path/to/default-image.jpg"
+                                <img src="{{asset('storage/'.$product->images)}}"
                                      alt="{{ $product->name }}"
                                      class="w-full h-full object-contain">
                                 <div class="absolute top-4 left-4">
                                     <div class="flex items-center bg-white rounded-full px-3 py-1 shadow-md">
-                                        <img src="{{ $product->store_profile ?? '/path/to/default-store-image.jpg' }}"
+                                        <img src="{{ asset($product->store_profile) ?? '/path/to/default-store-image.jpg' }}"
                                              alt="{{ $product->store_name }}"
                                              class="w-6 h-6 rounded-full">
                                         <span class="ml-2 text-sm font-medium">{{ $product->store_name }}</span>
