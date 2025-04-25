@@ -18,7 +18,7 @@ return new class extends Migration
             $table->decimal('price', 10, 2);
             $table->integer('stock')->default(0);
             $table->boolean('is_active')->default(true);
-            $table->json('images')->nullable();
+            $table->string('images')->nullable();
             $table->decimal('rating', 3, 2)->default(0.00);
             $table->integer('total_reviews')->default(0);
             $table->timestamps();
