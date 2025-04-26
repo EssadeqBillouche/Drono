@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Marketplace Catalog')
+@section('title', 'Catalog')
 
 @section('css')
     <link rel="stylesheet" href="{{ asset('css/catalog.css') }}">
