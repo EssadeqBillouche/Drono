@@ -118,6 +118,14 @@ Route::get('/', function () {
     return view('Index');
 })->name('index');
 
+Route::get('/about', function () {
+    return view('aboutUs');
+})->name('about');
+
+Route::get('/contact', function () {
+    return view('contactUs');
+})->name('contact');
+
 Route::get('/cart', function () {
     return view('cart');
 })->name('cart');
