@@ -236,7 +236,7 @@
                     <div class="flex h-full flex-col md:flex-row">
                         <div class="md:w-1/2 bg-gray-50 p-6">
                             <div class="relative aspect-square mb-4 rounded-lg overflow-hidden border border-gray-100">
-                                <img src="{{asset('storage/'.$product->images)}}"
+                                <img src="{{ asset('storage/'.$product->images) }}"
                                      alt="{{ $product->name }}"
                                      class="w-full h-full object-contain">
                                 <div class="absolute top-4 left-4">
