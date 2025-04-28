@@ -17,11 +17,11 @@
                     Shop
                     <span class="absolute left-0 bottom-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300"></span>
                 </a></li>
-            <li><a href="#" class="text-text hover:text-primary font-medium transition duration-200 relative group">
+            <li><a href="{{route('about')}}" class="text-text hover:text-primary font-medium transition duration-200 relative group">
                     Contact
                     <span class="absolute left-0 bottom-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300"></span>
                 </a></li>
-            <li><a href="#" class="text-text hover:text-primary font-medium transition duration-200 relative group">
+            <li><a href="{{route('contact')}}" class="text-text hover:text-primary font-medium transition duration-200 relative group">
                     About
                     <span class="absolute left-0 bottom-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300"></span>
                 </a></li>
