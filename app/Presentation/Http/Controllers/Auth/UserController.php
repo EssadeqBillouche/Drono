@@ -30,9 +30,9 @@ class UserController extends Controller
                     'store_category' => $seller->store_category,
                     'store_profile' => $seller->store_profile,
                     'store_background_image' => $seller->store_background_image,
-                    'description' => $seller->description,
                     'contact_phone' => $seller->contact_phone,
                 ];
+                session(['seller_data' => $sellerData]);
             }
 
             return match($user->role) {
