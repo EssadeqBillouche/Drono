@@ -34,7 +34,7 @@ class AddProductRequest extends FormRequest
         $imagePath = Storage::disk('public')->putFile('products', $this->file('image'));
 
         return new AddProductDTO(
-            sellerId: auth()->id(),
+            sellerId: session()->get('seller_data.id'),
             categoryId: $this->validated('category_id'),
             name: $this->validated('name'),
             slug: Str::slug($this->validated('name')),
