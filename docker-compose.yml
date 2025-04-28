@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
     # PHP Application (Laravel)
     app:
@@ -14,6 +12,7 @@ services:
         networks:
             - drono-network
         environment:
+            - PHP_MEMORY_LIMIT=1G
             - APP_ENV=local
             - APP_DEBUG=true
             - DB_HOST=db
