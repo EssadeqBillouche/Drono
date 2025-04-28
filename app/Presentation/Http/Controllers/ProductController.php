@@ -17,8 +17,6 @@ class ProductController extends Controller
     {
 
         $allproducts = $this->getProductUseCase->getAllProduct();
-        dd($allproducts);
-
         return view('catalog', compact('allproducts'));
     }
     public function product(){
