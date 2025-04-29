@@ -4,6 +4,7 @@ namespace App\Presentation\Http\Controllers;
 
 use App\Application\Product\UseCase\AddProduct;
 use App\Application\Product\UseCase\GetProductUseCase;
+use App\Infrastructure\Persistence\Models\seller as sellerModel;
 use App\Presentation\Http\Requests\Product\AddProductRequest;
 use Illuminate\Support\Facades\Log;
 
@@ -15,9 +16,9 @@ class ProductController extends Controller
 
     public function index()
     {
-
+        $top5Seller = sellerModel::all()->take(10);
         $allproducts = $this->getProductUseCase->getAllProduct();
-        return view('catalog', compact('allproducts'));
+        return view('catalog', compact('allproducts', 'top5Seller'));
     }
     public function product(){
         return view('Seller.Products');
