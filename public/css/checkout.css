@@ -1,0 +1,62 @@
+.form-section {
+    @apply bg-white rounded-lg shadow-md p-6 mb-6;
+}
+
+.section-title {
+    @apply text-lg font-semibold text-gray-800 mb-4 flex items-center;
+}
+
+.section-icon {
+    @apply w-5 h-5 mr-2 text-primary;
+}
+
+.input-group {
+    @apply mb-4;
+}
+
+.input-label {
+    @apply block text-sm font-medium text-gray-700 mb-1;
+}
+
+.text-input {
+    @apply w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent;
+}
+
+.payment-method-card {
+    @apply border-2 border-gray-200 rounded-lg p-4 flex items-center cursor-pointer transition-all;
+}
+
+.payment-method-card:hover {
+    @apply bg-gray-50;
+}
+
+.payment-method-card.selected {
+    @apply border-primary bg-primary/5;
+}
+
+.payment-icon {
+    @apply w-10 h-10 mr-3;
+}
+
+#map {
+    height: 300px;
+    width: 100%;
+    border-radius: 0.5rem;
+}
+
+.animate-pulse {
+    animation: pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+.hidden {
+    display: none;
+}
