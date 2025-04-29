@@ -3,18 +3,32 @@
 use App\Presentation\Http\Controllers\Auth\ClientController;
 use App\Presentation\Http\Controllers\Auth\SellerController;
 use App\Presentation\Http\Controllers\Auth\UserController;
+use App\Presentation\Http\Controllers\CheckoutController;
+use App\Presentation\Http\Controllers\OrderController;
 use App\Presentation\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
-// Test route
-Route::get('/test', function () {
-    throw new Exception('Test exception for Telescope');
-});
 
-
+// General/Public Routes
 Route::get('/', function () {
     return view('Index');
-})->name('home');
+})->name('index');
+
+Route::get('/about', function () {
+    return view('aboutUs');
+})->name('about');
+
+Route::get('/contact', function () {
+    return view('contactUs');
+})->name('contact');
+
+Route::get('/cart', function () {
+    return view('cart');
+})->name('cart');
+
+Route::get('/Confirmation', function () {
+    return view('ConfirmationOrder');
+});
 
 
 // Authentication Routes
@@ -74,11 +88,9 @@ Route::prefix('product')->group(function () {
     Route::post('/', [ProductController::class, 'store'])->name('product.store'); // POST method for 'store' is unconventional. Consider 'product.create'
 });
 
-
-
 // Order Routes
 Route::prefix('order')->group(function () {
-    Route::match(['get', 'post'], '/create', function () {})->name('order.create'); // Combine get and post
+    Route::post('/order', [OrderController::class, 'create'])->name('order.create'); // Combine get and post
     Route::get('/history', function () {})->name('order.history');
     Route::get('/{id}', function () {})->name('orders.show');
 });
@@ -110,33 +122,11 @@ Route::prefix('seller')->group(function () {
     Route::get('/reviews', [SellerController::class, 'settings'])->name('seller.reviews');
     Route::get('/settings', [SellerController::class, 'settings'])->name('seller.settings');
 });
-
-
-
-// General/Public Routes
-Route::get('/', function () {
-    return view('Index');
-})->name('index');
-
-Route::get('/about', function () {
-    return view('aboutUs');
-})->name('about');
-
-Route::get('/contact', function () {
-    return view('contactUs');
-})->name('contact');
-
-Route::get('/cart', function () {
-    return view('cart');
-})->name('cart');
-
 Route::get('/catalog', [ProductController::class, 'index'])->name('catalog'); // 'products.index' might be better
 
 // Checkout Routes
-Route::prefix('/checkout')->group(function () {
-    Route::get('/', function () { return view('checkout'); })->name('checkout'); // 'checkout.index' might be better
-    Route::get('/shipping', function () { return view('checkout.shipping'); })->name('checkout.shipping');
-});
+
+Route::get('/checkout',[CheckoutController::class, 'show'] )->name('checkout'); // 'checkout.index' might be better
 
 // Authenticated Profile Route
 Route::get('/profile', function () { return view('Client.ClientProfile'); })->name('ClientProfile'); // 'client.profile' for consistency
