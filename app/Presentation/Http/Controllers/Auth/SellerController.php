@@ -3,6 +3,7 @@
 namespace App\Presentation\Http\Controllers\Auth;
 
 use App\Application\Auth\UseCase\sellerRegisterUseCase;
+use App\Infrastructure\Persistence\Models\Seller;
 use App\Presentation\Http\Controllers\Controller;
 use App\Presentation\Http\Requests\Auth\RegisterSellerRequest;
 use App\Presentation\Http\Requests\Auth\SellerRegisterRequest;
@@ -17,6 +18,12 @@ class SellerController extends Controller
 
     public function index(){
         return view('Seller.dashboard');
+    }
+
+    public function show($id){
+        $seller = Seller::with('products')->find($id);
+
+        return view('Seller.Profile', compact('seller'));
     }
     public function store(SellerRegisterRequest $request): RedirectResponse
     {
