@@ -13,7 +13,6 @@ function openModal(modalId) {
             modalContent.style.transform = 'scale(0.9)';
             modalContent.style.opacity = '0';
         }
-
         // Trigger reflow
         window.getComputedStyle(modal).opacity;
 
