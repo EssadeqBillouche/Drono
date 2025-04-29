@@ -122,6 +122,9 @@ Route::prefix('seller')->group(function () {
     Route::get('/reviews', [SellerController::class, 'settings'])->name('seller.reviews');
     Route::get('/settings', [SellerController::class, 'settings'])->name('seller.settings');
 });
+
+Route::get('/seller/{id}', [SellerController::class, 'show'])->name('seller.show');
+
 Route::get('/catalog', [ProductController::class, 'index'])->name('catalog'); // 'products.index' might be better
 
 // Checkout Routes
