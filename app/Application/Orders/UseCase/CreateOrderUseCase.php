@@ -17,9 +17,15 @@ class CreateOrderUseCase
 
     public function execute(AddOrderDTO $addOrderDTO){
 
-            foreach ($addOrderDTO->getItems() as $item) {
-                dd($item['id']);
-            }
+        $order = new Order( clientId: $addOrderDTO->getClientId(),
+            shippingLatitude:  $addOrderDTO->getShippingLatitude(),
+        shippingLongitude: $addOrderDTO->getShippingLongitude());
+
+        foreach ($addOrderDTO->getItems() as $item) {
+            $order->addItem(new OrderItem($item['id'], $item['name'], $item['price'], $item['quantity']));
+        }
+        dd($order);
+
 
     }
 }
