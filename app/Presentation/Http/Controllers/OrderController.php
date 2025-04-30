@@ -3,16 +3,18 @@
 namespace App\Presentation\Http\Controllers;
 
 
+use App\Application\Orders\UseCase\CreateOrderUseCase;
 use App\Presentation\Http\Requests\Order\CreateOrderRequest;
 
 class OrderController extends Controller
 {
-    public function __construct()
+    private CreateOrderUseCase $createOrderUseCase;
+    public function __construct( CreateOrderUseCase $createOrderUseCase)
     {
+        $this->createOrderUseCase = $createOrderUseCase;
     }
-    public function create( CreateOrderRequest $request){
-
-        dd($request->all());
+    public function create(CreateOrderRequest $request){
+        $this->createOrderUseCase->execute($request->toDTO());
 
     }
     public function show(){}
