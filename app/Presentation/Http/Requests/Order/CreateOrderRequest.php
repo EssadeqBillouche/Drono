@@ -2,6 +2,7 @@
 
 namespace App\Presentation\Http\Requests\Order;
 
+use App\Application\Orders\DTOs\AddOrderDTO;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CreateOrderRequest extends FormRequest
@@ -45,14 +46,18 @@ class CreateOrderRequest extends FormRequest
         ];
     }
 
-//    public function messages()
-//    {
-//        return [
-//            'card_number.size' => 'Card number must be 19 characters.',
-//            'expiry_date.size' => 'Expiry date must be in MM/YY format.',
-//            'cvv.size' => 'CVV must be 3 or 4 digits.',
-//            'terms_accepted.accepted' => 'You must accept the terms and conditions.',
-//        ];
-//
-//    }
+    public function toDTO(){
+        return new AddOrderDTO(items: $this->order_itemsToArray(),
+            shippingLatitude: $this->input('latitude'),
+            shippingLongitude: $this->input('longitude'),
+            clientId: 6,
+            notes: $this->input('delivery_notes'),
+        );
+
+    }
+    public function order_itemsToArray()
+    {
+        return json_decode($this->input('order_items'), true);
+    }
+
 }
