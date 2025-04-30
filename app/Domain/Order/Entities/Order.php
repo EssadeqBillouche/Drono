@@ -11,8 +11,8 @@ class Order
     private string $paymentStatus;
     private float $total;
     private array $items;
-    private string $shippingLongitude;
-    private string $shippingLatitude;
+    private float $shippingLongitude;
+    private float $shippingLatitude;
     private string $createdAt;
 
     // Basic status constants
@@ -23,9 +23,9 @@ class Order
     public const STATUS_CANCELLED = 'cancelled';
 
     public function __construct(
-        int $clientId,
-        float $shippingLongitude,
-        float $shippingLatitude
+        $clientId,
+        $shippingLongitude,
+        $shippingLatitude
     ) {
         $this->clientId = $clientId;
         $this->shippingLongitude = $shippingLongitude;
@@ -45,7 +45,6 @@ class Order
     public function addItem(OrderItem $item): void
     {
         $this->items[] = $item;
-        $this->calculateTotal();
     }
 
     public function removeItem(int $itemIndex): void
