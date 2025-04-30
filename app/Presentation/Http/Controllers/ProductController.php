@@ -16,7 +16,8 @@ class ProductController extends Controller
 
     public function index()
     {
-        $top5Seller = sellerModel::all()->take(10);
+        dd(session()->all());
+        $top5Seller = sellerModel::all()->take(5);
         $allproducts = $this->getProductUseCase->getAllProduct();
         return view('catalog', compact('allproducts', 'top5Seller'));
     }
