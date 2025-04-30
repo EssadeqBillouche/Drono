@@ -9,5 +9,5 @@ interface OrderRepositoryInterface
 {
     public function store( Order $order);
 
-    public function update();
+    public function update(Order $order, $id);
 }
