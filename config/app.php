@@ -39,6 +39,7 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         App\Providers\ProductServiceProvider::class,
+        App\Providers\OrderServiceProvider::class,
 
         /*
          * Package Service Providers...
