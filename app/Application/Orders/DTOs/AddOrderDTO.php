@@ -5,16 +5,16 @@ namespace App\Application\Orders\DTOs;
 class AddOrderDTO
 {
     private array $items;
-    private string $shippingLatitude;
-    private string $shippingLongitude;
+    private float $shippingLatitude;
+    private float $shippingLongitude;
 
     private int $clientId;
     private ?string $notes;
 
     public function __construct(
         array $items,
-        string $shippingLatitude,
-        string $shippingLongitude,
+        float $shippingLatitude,
+        float $shippingLongitude,
         int $clientId,
         ?string $notes = null
     ) {
@@ -30,14 +30,14 @@ class AddOrderDTO
         return $this->items;
     }
 
-    public function getShippingAddress(): string
+    public function getShippingLatitude()
     {
-        return $this->shippingAddress;
+        return $this->shippingLatitude;
     }
 
-    public function getBillingAddress(): string
+    public function getShippingLongitude()
     {
-        return $this->billingAddress;
+        return $this->shippingLongitude;
     }
 
     public function getClientId(): int
