@@ -15,9 +15,15 @@ class OrderController extends Controller
     }
     public function create(CreateOrderRequest $request){
         $this->createOrderUseCase->execute($request->toDTO());
+        return redirect()->route('ClientProfile')->with('success','Order created successfully');
 
     }
     public function show(){}
     public function index(){}
+
+    public function confirmation(){
+
+        return view('OrderConfirmation');
+    }
 
 }
