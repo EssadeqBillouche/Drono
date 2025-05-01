@@ -4,6 +4,7 @@ namespace App\Presentation\Http\Requests\Order;
 
 use App\Application\Orders\DTOs\AddOrderDTO;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class CreateOrderRequest extends FormRequest
 {
@@ -50,7 +51,7 @@ class CreateOrderRequest extends FormRequest
         return new AddOrderDTO(items: $this->order_itemsToArray(),
             shippingLatitude: $this->input('latitude'),
             shippingLongitude: $this->input('longitude'),
-            clientId: 6,
+            clientId: session()->get('sessionData.id'),
             notes: $this->input('delivery_notes'),
         );
 
