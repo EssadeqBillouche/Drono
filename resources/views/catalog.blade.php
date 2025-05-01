@@ -37,90 +37,23 @@
 
         <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
             <!-- Vendor Cards -->
-            <div class="bg-white rounded-xl p-4 flex flex-col items-center shadow-sm hover:shadow-md transition-all cursor-pointer group">
-                <div class="w-16 h-16 rounded-full overflow-hidden mb-3 border-2 border-transparent group-hover:border-primary transition-all">
-                    <img src="{{ asset('images/vendors/mcdonalds.jpg') }}" alt="McDonald's" class="w-full h-full object-cover">
-                </div>
-                <h3 class="font-medium text-text group-hover:text-primary transition-colors">McDonald's</h3>
-                <p class="text-xs text-secondary">Fast Food</p>
-                <div class="flex items-center mt-2">
-                    <div class="text-yellow-400 mr-1">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            @foreach($top5Seller as $seller)
+                <a href="{{ route('seller.show', $seller->id) }}" class="block no-underline">
+                    <div class="bg-white rounded-xl p-4 flex flex-col items-center shadow-sm hover:shadow-md transition-all group">
+                        <div class="w-16 h-16 rounded-full overflow-hidden mb-3 border-2 border-transparent group-hover:border-primary transition-all">
+                            <img src="{{ asset($seller->store_profile) }}" alt="{{ $seller->store_name }}" class="w-full h-full object-cover">
+                        </div>
+                        <h3 class="font-medium text-text group-hover:text-primary transition-colors">{{ $seller->store_name }}</h3>
+                        <p class="text-xs text-secondary">Fast Food</p>
+                        <div class="flex items-center mt-2">
+                            <div class="text-yellow-400 mr-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                            </div>
+                            <span class="text-xs text-secondary">4.8</span>
+                        </div>
                     </div>
-                    <span class="text-xs text-secondary">4.8</span>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-xl p-4 flex flex-col items-center shadow-sm hover:shadow-md transition-all cursor-pointer group">
-                <div class="w-16 h-16 rounded-full overflow-hidden mb-3 border-2 border-transparent group-hover:border-primary transition-all">
-                    <img src="{{ asset('images/vendors/sephora.jpg') }}" alt="Sephora" class="w-full h-full object-cover">
-                </div>
-                <h3 class="font-medium text-text group-hover:text-primary transition-colors">Sephora</h3>
-                <p class="text-xs text-secondary">Beauty</p>
-                <div class="flex items-center mt-2">
-                    <div class="text-yellow-400 mr-1">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                    </div>
-                    <span class="text-xs text-secondary">4.9</span>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-xl p-4 flex flex-col items-center shadow-sm hover:shadow-md transition-all cursor-pointer group">
-                <div class="w-16 h-16 rounded-full overflow-hidden mb-3 border-2 border-transparent group-hover:border-primary transition-all">
-                    <img src="{{ asset('images/vendors/walgreens.jpg') }}" alt="Walgreens" class="w-full h-full object-cover">
-                </div>
-                <h3 class="font-medium text-text group-hover:text-primary transition-colors">Walgreens</h3>
-                <p class="text-xs text-secondary">Pharmacy</p>
-                <div class="flex items-center mt-2">
-                    <div class="text-yellow-400 mr-1">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                    </div>
-                    <span class="text-xs text-secondary">4.7</span>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-xl p-4 flex flex-col items-center shadow-sm hover:shadow-md transition-all cursor-pointer group">
-                <div class="w-16 h-16 rounded-full overflow-hidden mb-3 border-2 border-transparent group-hover:border-primary transition-all">
-                    <img src="{{ asset('images/vendors/wholefoods.jpg') }}" alt="Whole Foods" class="w-full h-full object-cover">
-                </div>
-                <h3 class="font-medium text-text group-hover:text-primary transition-colors">Whole Foods</h3>
-                <p class="text-xs text-secondary">Grocery</p>
-                <div class="flex items-center mt-2">
-                    <div class="text-yellow-400 mr-1">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                    </div>
-                    <span class="text-xs text-secondary">4.6</span>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-xl p-4 flex flex-col items-center shadow-sm hover:shadow-md transition-all cursor-pointer group">
-                <div class="w-16 h-16 rounded-full overflow-hidden mb-3 border-2 border-transparent group-hover:border-primary transition-all">
-                    <img src="{{ asset('images/vendors/bestbuy.jpg') }}" alt="Best Buy" class="w-full h-full object-cover">
-                </div>
-                <h3 class="font-medium text-text group-hover:text-primary transition-colors">Best Buy</h3>
-                <p class="text-xs text-secondary">Electronics</p>
-                <div class="flex items-center mt-2">
-                    <div class="text-yellow-400 mr-1">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                    </div>
-                    <span class="text-xs text-secondary">4.5</span>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-xl p-4 flex flex-col items-center shadow-sm hover:shadow-md transition-all cursor-pointer group">
-                <div class="w-16 h-16 rounded-full overflow-hidden mb-3 border-2 border-transparent group-hover:border-primary transition-all">
-                    <img src="{{ asset('images/vendors/zara.jpg') }}" alt="Zara" class="w-full h-full object-cover">
-                </div>
-                <h3 class="font-medium text-text group-hover:text-primary transition-colors">Zara</h3>
-                <p class="text-xs text-secondary">Fashion</p>
-                <div class="flex items-center mt-2">
-                    <div class="text-yellow-400 mr-1">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                    </div>
-                    <span class="text-xs text-secondary">4.4</span>
-                </div>
-            </div>
-        </div>
+                </a>
+        @endforeach
     </section>
 
     <main class="py-8">
@@ -147,7 +80,7 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             @foreach($allproducts as $product)
-                <div class="product-card bg-white rounded-xl overflow-hidden shadow hover:shadow-lg transition-all cursor-pointer group" data-modal="product-{{ $product->id }}">
+                <div class="product-card bg-white rounded-xl overflow-hidden shadow hover:shadow-lg transition-all cursor-pointer group" data-modal="{{$product->id}}">
                     <div class="relative h-56 bg-gray-100 overflow-hidden">
                         <img src="{{ asset('storage/'.$product->images) }}"
                              alt="{{ $product->name }}"
@@ -231,7 +164,7 @@
 
         @foreach($allproducts as $product)
             <div class="modal--window hidden fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm z-50 flex items-center justify-center p-4"
-                 id="product-{{ $product->id }}">
+                 id="{{$product->id}}">
                 <div class="modal-content bg-white w-full max-w-4xl rounded-xl shadow-xl overflow-hidden transform transition-all">
                     <div class="flex h-full flex-col md:flex-row">
                         <div class="md:w-1/2 bg-gray-50 p-6">
@@ -267,7 +200,7 @@
                                     </span>
                                     </div>
                                 </div>
-                                <button onclick="closeModal('product-{{ $product->id }}')"
+                                <button onclick="closeModal('{{$product->id}}')"
                                         class="text-gray-400 hover:text-gray-600 transition-colors p-2 hover:bg-gray-100 rounded-full">
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
@@ -315,7 +248,7 @@
                                             </svg>
                                         </button>
                                     </div>
-                                    <button onclick="addToCart('product-{{$product->id}}')"
+                                    <button onclick="addToCart('{{$product->id}}')"
                                             class="flex-1 bg-primary text-white py-2 px-6 rounded-lg hover:bg-primary/90 transition-colors flex items-center justify-center space-x-2 group">
                                         <svg class="w-5 h-5 group-hover:animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

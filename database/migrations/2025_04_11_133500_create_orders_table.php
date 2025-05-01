@@ -1,29 +1,32 @@
-// 2024_04_08_000003_create_orders_table.php
 <?php
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     public function up(): void
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('client_id')->constrained();
+            $table->unsignedBigInteger('client_id');
             $table->string('order_number')->unique();
-            $table->decimal('total_amount', 10, 2);
-            $table->decimal('delivery_fee', 10, 2);
-            $table->enum('status', [
-                'pending', 'confirmed', 'preparing',
-                'in_transit', 'delivered', 'cancelled'
-            ])->default('pending');
-            $table->string('delivery_address');
-            $table->json('payment_details');
-            $table->timestamp('estimated_delivery_time')->nullable();
-            $table->json('drone_tracking_data')->nullable();
+            $table->string('status');
+            $table->string('payment_status');
+            $table->decimal('total', 10, 2);
+            $table->decimal('shipping_latitude', 10, 8);
+            $table->decimal('shipping_longitude', 11, 8);
+            $table->text('notes')->nullable();
             $table->timestamps();
+
+            $table->foreign('client_id')
+                ->references('id')
+                ->on('clients')
+                ->onDelete('restrict');
+
+            $table->index('order_number');
+            $table->index('status');
+            $table->index('payment_status');
         });
     }
 

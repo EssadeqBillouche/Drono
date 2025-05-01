@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize map
-    let map = L.map('map').setView([40.7128, -74.0060], 13);
+    let map = L.map('map').setView([32.2833, -9.2333], 13);
     let locationSet = false;
     let bestAccuracy = Infinity;
     let watchId = null;
@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }).addTo(map);
 
     // Add marker
-    let marker = L.marker([40.7128, -74.0060], {
+    let marker = L.marker([32.2833, -9.2333], {
         draggable: false  // Disable manual dragging
     }).addTo(map);
 
@@ -28,6 +28,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
         e.target.value = formattedValue;
     });
+
+    updateOrderSummary(); // order Summary
 
     // Format expiry date with slash
     document.getElementById('expiry_date').addEventListener('input', function(e) {
@@ -99,6 +101,66 @@ document.addEventListener('DOMContentLoaded', function() {
     const accuracyDisplay = document.createElement('div');
     accuracyDisplay.className = 'text-sm text-gray-500 mt-1';
     locationStatus.after(accuracyDisplay);
+
+    function updateOrderSummary() {
+        const cartItems = JSON.parse(localStorage.getItem('dronoCart')) || [];
+        const orderSummaryContainer = document.getElementById('orderSummary');
+
+        // Calculate totals
+        const subtotal = cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
+        const deliveryFee = subtotal > 50 ? 0 : 5;
+        const taxes = subtotal * 0.13;
+        const total = subtotal + deliveryFee + taxes;
+
+        const summaryHTML = `
+        <div class="border-b border-gray-200 pb-4 mb-4">
+            ${cartItems.map(item => `
+                <div class="flex justify-between items-center py-2" id="${item.name}">
+                    <div class="flex items-center">
+                        <img src="${item.image}" alt="${item.name}" class="w-12 h-12 object-cover rounded mr-4">
+                        <div>
+                            <p class="font-medium">${item.name}</p>
+                            <p class="text-sm text-gray-500">Quantity: ${item.quantity}</p>
+                        </div>
+                    </div>
+                    <p class="font-medium">$${(item.price * item.quantity).toFixed(2)}</p>
+                </div>
+            `).join('')}
+        </div>
+
+        <div class="space-y-2 mb-4">
+            <div class="flex justify-between">
+                <p class="text-gray-600">Subtotal</p>
+                <p>$${subtotal.toFixed(2)}</p>
+            </div>
+            <div class="flex justify-between">
+                <p class="text-gray-600">Delivery Fee</p>
+                <p>$${deliveryFee.toFixed(2)}</p>
+            </div>
+            <div class="flex justify-between">
+                <p class="text-gray-600">Taxes (13%)</p>
+                <p>$${taxes.toFixed(2)}</p>
+            </div>
+        </div>
+
+        <div class="border-t border-gray-200 pt-4">
+            <div class="flex justify-between items-center">
+                <p class="font-bold text-lg">Total</p>
+                <p class="font-bold text-lg">$${total.toFixed(2)}</p>
+            </div>
+        </div>
+
+        <input type="hidden" name="order_subtotal" value="${subtotal}">
+        <input type="hidden" name="order_delivery_fee" value="${deliveryFee}">
+        <input type="hidden" name="order_taxes" value="${taxes}">
+        <input type="hidden" name="order_total" value="${total}">
+        <input type="hidden" name="order_items" value='${JSON.stringify(cartItems)}'>
+    `;
+
+        if (orderSummaryContainer) {
+            orderSummaryContainer.innerHTML = summaryHTML;
+        }
+    }
 
     getLocationBtn.addEventListener('click', function() {
         if (!navigator.geolocation) {
