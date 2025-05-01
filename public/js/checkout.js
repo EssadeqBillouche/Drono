@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize map
-    let map = L.map('map').setView([40.7128, -74.0060], 13);
+    let map = L.map('map').setView([32.2833, -9.2333], 13);
     let locationSet = false;
     let bestAccuracy = Infinity;
     let watchId = null;
@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }).addTo(map);
 
     // Add marker
-    let marker = L.marker([40.7128, -74.0060], {
+    let marker = L.marker([32.2833, -9.2333], {
         draggable: false  // Disable manual dragging
     }).addTo(map);
 
