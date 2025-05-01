@@ -37,6 +37,14 @@ class Order
         $this->items = [];
     }
 
+    /**
+     * @return int
+     */
+    public function getClientId(): int
+    {
+        return $this->clientId;
+    }
+
     private function generateOrderNumber(): string
     {
         return 'ORD-' . date('Ymd') . '-' . rand(1000, 9999);
@@ -62,6 +70,26 @@ class Order
         foreach ($this->items as $item) {
             $this->total += $item->getTotal();
         }
+    }
+
+    public function getPaymentStatus(): string
+    {
+        return $this->paymentStatus;
+    }
+
+    public function getShippingLongitude(): float
+    {
+        return $this->shippingLongitude;
+    }
+
+    public function getShippingLatitude(): float
+    {
+        return $this->shippingLatitude;
+    }
+
+    public function getCreatedAt(): string
+    {
+        return $this->createdAt;
     }
 
     public function updateStatus(string $newStatus): void
