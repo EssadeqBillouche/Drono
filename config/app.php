@@ -1,4 +1,4 @@
-<?php
+php artisan make:provider MiddlewareServiceProvider<?php
 
 return [
 
@@ -41,6 +41,7 @@ return [
         App\Providers\ProductServiceProvider::class,
         App\Providers\OrderServiceProvider::class,
         App\Providers\PaymentServiceProvider::class,
+        App\Providers\MiddlewareServiceProvider::class,
 
         /*
          * Package Service Providers...
