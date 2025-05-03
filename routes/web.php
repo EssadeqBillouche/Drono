@@ -9,10 +9,17 @@ use App\Presentation\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
 
+Route::post('/checkout/process-payment', [CheckoutController::class, 'processPayment'])
+    ->name('checkout.process-payment');
+Route::get('/order/confirmation/{id}', [OrderController::class, 'confirmation'])
+    ->name('order.confirmation');
+
 // General/Public Routes
 Route::get('/', function () {
     return view('Index');
 })->name('index');
+
+
 
 Route::get('/about', function () {
     return view('aboutUs');
@@ -92,7 +99,7 @@ Route::prefix('product')->group(function () {
 Route::prefix('order')->group(function () {
     Route::post('/order', [OrderController::class, 'create'])->name('order.create'); // Combine get and post
     Route::get('/history', function () {})->name('order.history');
-    Route::get('/order/confirmation', [OrderController::class, 'confirmation'])->name('order.confirmation');
+    Route::get('/confirmation', [OrderController::class, 'confirmation'])->name('order.confirmation');
     Route::get('/{id}', function () {})->name('orders.show');
     Route::get('/track', function () {})->name('order.track');
 });
