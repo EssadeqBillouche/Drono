@@ -166,117 +166,45 @@
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
                             </svg>
-                            Payment Method
+                            Payment Information
                         </h2>
 
-                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
-                            <!-- Credit Card Option -->
-                            <div id="card-method" class="border-2 border-primary bg-primary/5 rounded-lg p-4 flex items-center cursor-pointer transition-all" onclick="selectPaymentMethod('card')">
-                                <input type="radio" name="payment_method" value="card" class="hidden" checked>
-                                <div class="bg-primary/10 p-2 rounded-full mr-3">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
-                                    </svg>
-                                </div>
-                                <div>
-                                    <p class="font-medium text-text">Credit Card</p>
-                                    <p class="text-xs text-secondary">Visa, Mastercard, Amex</p>
-                                </div>
+                        <div class="mb-4">
+                            <label for="card-holder-name" class="block text-sm font-medium text-text mb-1">Cardholder Name</label>
+                            <input id="card-holder-name" type="text" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-transparent" required>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="card-element" class="block text-sm font-medium text-text mb-1">Credit or Debit Card</label>
+                            <div id="card-element" class="p-3 border border-gray-300 rounded-lg bg-white">
+                                <!-- Stripe Elements will be inserted here -->
                             </div>
 
-                            <!-- PayPal Option -->
-                            <div id="paypal-method" class="border-2 border-gray-200 rounded-lg p-4 flex items-center cursor-pointer transition-all hover:bg-gray-50" onclick="selectPaymentMethod('paypal')">
-                                <input type="radio" name="payment_method" value="paypal" class="hidden">
-                                <div class="bg-[#003087]/10 p-2 rounded-full mr-3">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-[#003087]" viewBox="0 0 24 24" fill="currentColor">
-                                        <path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944 3.72a.381.381 0 0 1 .375-.32h6.419c3.07 0 5.522 1.012 6.512 3.814.473 1.33.51 2.477.112 3.428-.31.745-.809 1.348-1.442 1.826 1.89.591 2.552 2.175 2.258 3.837-.295 1.66-1.043 2.748-2.233 3.63-1.266.939-2.875 1.402-4.993 1.402h-.468l-.002-.023c-2.44 0-3.903 0-4.406 0zm1.373-2.375l.116-.756c.067-.323.373-.558.713-.558h1.424c.928 0 1.803-.148 2.394-.456.61-.317 1.073-.833 1.356-1.533.418-1.033.218-1.72-.309-2.19-.445-.396-1.19-.571-2.283-.571H9.77c-.287 0-.548.025-.815.075-.347.053-.58.305-.643.622l-1.08 5.367h1.217zm1.617-8.739l.1-.601c.066-.33.374-.568.714-.568H12c.928 0 1.803-.148 2.394-.456.61-.317 1.073-.833 1.356-1.533.417-1.033.217-1.72-.31-2.19-.445-.396-1.19-.571-2.283-.571H11.05a.888.888 0 0 0-.814.5l-1.08 5.42h-.09z" />
-                                    </svg>
-                                </div>
-                                <div>
-                                    <p class="font-medium text-text">PayPal</p>
-                                    <p class="text-xs text-secondary">Pay with PayPal account</p>
-                                </div>
-                            </div>
+                            <!-- Used to display form errors -->
+                            <div id="card-errors" role="alert" class="mt-2 text-red-500 text-sm"></div>
+                        </div>
 
-                            <!-- Apple Pay Option -->
-                            <div id="apple_pay-method" class="border-2 border-gray-200 rounded-lg p-4 flex items-center cursor-pointer transition-all hover:bg-gray-50" onclick="selectPaymentMethod('apple_pay')">
-                                <input type="radio" name="payment_method" value="apple_pay" class="hidden">
-                                <div class="bg-black/10 p-2 rounded-full mr-3">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-black" viewBox="0 0 24 24" fill="currentColor">
-                                        <path d="M17.6 7.2C16.9 7.9 16.7 8.9 16.7 9.5C16.8 10.5 17.3 11.4 17.9 12C18.3 12.4 18.8 12.8 19.3 12.9C19.1 13.8 18.8 14.6 18.4 15.4C17.8 16.5 17.2 17.6 16.2 17.6C15.2 17.7 14.9 17.1 13.8 17.1C12.6 17.1 12.3 17.6 11.4 17.7C10.5 17.7 9.8 16.8 9.2 15.7C8.1 13.6 7.2 9.9 8.4 7.4C8.9 6.2 10 5.4 11.1 5.4C12.2 5.3 13 6 13.9 6C14.8 6 15.5 5.4 16.8 5.4C17.8 5.4 18.7 6 19.3 6.9C17.2 8 17.5 12.1 19.7 12.8C19.5 13.3 19.4 13.5 19.2 14.1C18.8 15 18.3 16 17.6 17.2C17 18.3 16.2 19.8 15 19.9C14.1 19.9 13.7 19.3 12.6 19.3C11.6 19.3 11.1 19.9 10.3 19.9C9.1 19.9 8.4 18.5 7.8 17.4C6.9 15.7 6.2 13.1 6.1 10.7C6.1 9.4 6.3 8.1 6.9 7C7.8 5.4 9.3 4.4 10.9 4.4C12 4.4 13.2 5.1 13.9 5.1C14.6 5.1 16 4.3 17.6 4.3C18.5 4.3 19.4 4.6 20.1 5.2C19.3 5.8 18.3 6.5 17.6 7.2Z" />
-                                    </svg>
-                                </div>
-                                <div>
-                                    <p class="font-medium text-text">Apple Pay</p>
-                                    <p class="text-xs text-secondary">Fast and secure checkout</p>
-                                </div>
+                        <div class="mb-4 bg-gray-50 p-4 rounded-lg">
+                            <div class="flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                <p class="text-sm text-gray-600">Your payment information is encrypted and secure. We never store your full credit card details.</p>
                             </div>
                         </div>
 
-                        <!-- Credit Card Details -->
-                        <div id="card-details" class="payment-details">
-                            <div class="mb-4">
-                                <label for="card_number" class="block text-sm font-medium text-text mb-1">Card Number</label>
-                                <div class="relative">
-                                    <input type="text" id="card_number" name="card_number" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-transparent pl-10" placeholder="1234 5678 9012 3456" maxlength="19">
-                                    <div class="absolute inset-y-0 left-0 flex items-center pl-3">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
-                                        </svg>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                                <div class="mb-4">
-                                    <label for="expiry_date" class="block text-sm font-medium text-text mb-1">Expiry Date</label>
-                                    <input type="text" id="expiry_date" name="expiry_date" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-transparent" placeholder="MM/YY" maxlength="5">
-                                </div>
-                                <div class="mb-4">
-                                    <label for="cvv" class="block text-sm font-medium text-text mb-1">CVV</label>
-                                    <div class="relative">
-                                        <input type="text" id="cvv" name="cvv" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-transparent" placeholder="123" maxlength="4">
-                                        <div class="group absolute top-1/2 right-3 transform -translate-y-1/2">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                            </svg>
-                                            <div class="hidden group-hover:block absolute right-0 bottom-6 bg-gray-800 text-white text-xs rounded py-1 px-2 w-48">
-                                                The 3 or 4 digit security code on the back of your card
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="mb-4">
-                                    <label for="name_on_card" class="block text-sm font-medium text-text mb-1">Name on Card</label>
-                                    <input type="text" id="name_on_card" name="name_on_card" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-transparent">
-                                </div>
-                            </div>
+                        <div class="flex items-center mt-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                            </svg>
+                            <span class="text-sm text-gray-600">Secured by <span class="font-medium">Stripe</span></span>
                         </div>
 
-                        <!-- PayPal Details -->
-                        <div id="paypal-details" class="payment-details hidden">
-                            <div class="bg-blue-50 p-4 rounded-lg">
-                                <div class="flex items-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                    </svg>
-                                    <p class="text-blue-700">You will be redirected to PayPal to complete your payment after reviewing your order.</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Apple Pay Details -->
-                        <div id="apple_pay-details" class="payment-details hidden">
-                            <div class="bg-gray-50 p-4 rounded-lg">
-                                <div class="flex items-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-700 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                    </svg>
-                                    <p class="text-gray-700">Apple Pay will be available on the next step after reviewing your order.</p>
-                                </div>
-                            </div>
-                        </div>
+                        <!-- Hidden input for payment intent ID -->
+                        <input type="hidden" id="payment-intent-id" name="payment_intent_id">
+                        <input type="hidden" name="order_total" value="{{ $cartTotal ?? '0.00' }}">
                     </div>
+
                 </div>
 
                 <!-- Order Summary -->
@@ -342,5 +270,10 @@
 
 @section('script')
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-    <script src="{{ asset('js/checkout.js') }}"></script>
-@endsection
+    <script src="https://js.stripe.com/v3/"></script>
+    <script>
+        // Pass the Stripe key to JavaScript
+        const stripeKey = "{{ env('STRIPE_KEY') }}";
+    </script>
+    <script src="{{ asset('js/checkout.js') }}?v={{ time() }}"></script>
+    <script src="{{ asset('js/stripe-payment.js') }}?v={{ time() }}"></script>@endsection

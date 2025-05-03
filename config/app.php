@@ -40,6 +40,7 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         App\Providers\ProductServiceProvider::class,
         App\Providers\OrderServiceProvider::class,
+        App\Providers\PaymentServiceProvider::class,
 
         /*
          * Package Service Providers...
