@@ -39,7 +39,7 @@ Route::get('/Confirmation', function () {
 
 
 // Authentication Routes
-Route::prefix('Authentication')->group(function () {
+Route::prefix('Authentication')->middleware(['guest'])->group(function () {
     Route::post('/login', [UserController::class, 'login'])->name('login');
     Route::get('/login', function () { return view('Auth.login');})->name('login-View');
     Route::get('/ResetPassword', function () { return view('Auth.ResetPassword');})->name('ResetPassword');
@@ -58,7 +58,7 @@ Route::prefix('Authentication')->group(function () {
 });
 
 // Client Routes
-Route::prefix('client')->group(function () {
+Route::prefix('client')->middleware(['auth','role:client'])->group(function () {
     // Profile and preferences
     Route::get('profile', function () {
         return view('Client.ClientProfile');
@@ -122,7 +122,7 @@ Route::prefix('payment')->group(function () {
 });
 
 // Seller Dashboard Route (Move closer to other seller routes)
-Route::prefix('seller')->group(function () {
+Route::prefix('seller')->middleware(['auth','role:seller'])->group(function () {
     Route::get('/dashboard', [SellerController::class, 'index'])->name('seller.dashboard');
     Route::get('/products', [SellerController::class, 'products'])->name('seller.products');
     Route::get('/orders', [SellerController::class, 'orders'])->name('seller.orders');
