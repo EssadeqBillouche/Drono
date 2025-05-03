@@ -38,12 +38,6 @@ class CreateOrderRequest extends FormRequest
             'last_name' => 'required|string',
             'email' => 'required|email',
             'phone' => 'required|string',
-            'payment_method' => 'required|in:card,paypal,apple_pay',
-//            'card_number' => 'required_if:payment_method,card|string|size:19', // Adjust size as needed
-//            'expiry_date' => 'required_if:payment_method,card|string|size:5', // Adjust size as needed
-//            'cvv' => 'required_if:payment_method,card|string|size:3|size:4', // Allow 3 or 4 digits
-//            'name_on_card' => 'required_if:payment_method,card|string',
-//            'terms_accepted' => 'required|accepted',
         ];
     }
 
