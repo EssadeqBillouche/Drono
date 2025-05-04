@@ -1,5 +1,4 @@
-php artisan make:provider MiddlewareServiceProvider<?php
-
+<?php
 return [
 
     /*
