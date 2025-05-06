@@ -66,4 +66,25 @@ class OrderDAO implements OrderRepositoryInterface
         return $orderModel->id;
     }
     public function update(Order $order, $id){}
+
+    public function findById($id)
+    {
+        // TODO: Implement findById() method.
+    }
+
+    public function findByUserId($userId)
+    {
+        $orders = OrderModel::where('client_id', $userId)->get();
+        return $orders;
+    }
+
+    public function findBySellerId($sellerId)
+    {
+        // TODO: Implement findBySellerId() method.
+    }
+
+    public function findByClientId($clientId)
+    {
+        // TODO: Implement findByClientId() method.
+    }
 }
