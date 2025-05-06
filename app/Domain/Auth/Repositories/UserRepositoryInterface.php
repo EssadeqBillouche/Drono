@@ -10,4 +10,6 @@ interface UserRepositoryInterface
 {
     public function createClient(Client $client): ?User;
     public function createSeller(Seller $seller): ?User;
+
+    public function getSellerById(int $SellertId);
 }
