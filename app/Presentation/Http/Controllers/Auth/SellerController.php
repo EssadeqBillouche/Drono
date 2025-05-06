@@ -2,6 +2,7 @@
 
 namespace App\Presentation\Http\Controllers\Auth;
 
+use App\Application\Auth\UseCase\GetsellerInfoUseCase;
 use App\Application\Auth\UseCase\sellerRegisterUseCase;
 use App\Infrastructure\Persistence\Models\Seller;
 use App\Presentation\Http\Controllers\Controller;
@@ -13,7 +14,8 @@ class SellerController extends Controller
 {
 
     public function __construct(
-        private readonly sellerRegisterUseCase $registerSellerUseCase
+        private readonly sellerRegisterUseCase $registerSellerUseCase,
+        private readonly GetsellerInfoUseCase $getSellerInfoUseCase
     ) {}
 
     public function index(){
@@ -21,8 +23,10 @@ class SellerController extends Controller
     }
 
     public function show($id){
-        $seller = Seller::with('products')->find($id);
-
+        $seller = $this->getSellerInfoUseCase->execute($id);
+        if (!$seller) {
+            return redirect()->route('Index')->with('error', 'Seller not found.');
+        }
         return view('Seller.Profile', compact('seller'));
     }
     public function store(SellerRegisterRequest $request): RedirectResponse
