@@ -3,22 +3,25 @@
 namespace App\Presentation\Http\Controllers;
 
 use App\Application\Product\UseCase\AddProduct;
+use App\Application\Product\UseCase\GetProductByCategoryIdUseCase;
 use App\Application\Product\UseCase\GetProductUseCase;
 use App\Infrastructure\Persistence\Models\seller as sellerModel;
 use App\Presentation\Http\Requests\Product\AddProductRequest;
-use Illuminate\Support\Facades\Log;
 
 class ProductController extends Controller
 {
     public function __construct(
-        private AddProduct $addProductUseCase, private GetProductUseCase $getProductUseCase
+        private AddProduct $addProductUseCase,
+        private GetProductUseCase $getProductUseCase,
+        private GetProductByCategoryIdUseCase $getProductByCategoryIdUseCase
     ) {}
 
     public function index()
     {
         $top5Seller = sellerModel::all()->take(5);
         $allproducts = $this->getProductUseCase->getAllProduct();
-        return view('catalog', compact('allproducts', 'top5Seller'));
+        $categories = $this->getProductUseCase->getAllCategories();
+        return view('catalog', compact('allproducts', 'top5Seller', 'categories'));
     }
     public function product(){
         return view('Seller.Products');
@@ -41,4 +44,14 @@ class ProductController extends Controller
                 ->withInput()
                 ->withErrors(['error' => $e->getMessage()]);
         }
-    }}
+    }
+    public function showByCategoryId($id)
+    {
+        $product = $this->getProductByCategoryIdUseCase->execute($id);
+        if ($product->isEmpty()) {
+            return redirect()->route('catalog')->with('error', 'No products found for this category.');
+        }
+        return view('ProductDetails', compact('product'));
+    }
+
+}
