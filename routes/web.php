@@ -12,6 +12,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('Index');
 })->name('index');
+Route::get('/home', function () {
+    return view('Index');
+})->name('home');
 
 Route::get('/about', function () {
     return view('aboutUs');
@@ -21,15 +24,13 @@ Route::get('/contact', function () {
     return view('contactUs');
 })->name('contact');
 
-Route::get('/cart', function () {
-    return view('cart');
-})->name('cart');
 
-Route::get('/Confirmation', function () {
-    return view('ConfirmationOrder');
+
+Route::prefix('catalog')->group(function () {
+    Route::get('/', [ProductController::class, 'index'])->name('catalog');
+    Route::get('/{id}', [ProductController::class, 'showByCategoryId'])->name('products.showByCategoryId');
 });
 
-Route::get('/catalog', [ProductController::class, 'index'])->name('catalog');
 
 // Authentication Routes
 Route::prefix('Authentication')->middleware(['guest'])->group(function () {
@@ -51,20 +52,20 @@ Route::prefix('Authentication')->middleware(['guest'])->group(function () {
     });
 });
 
+
+
 // Client Routes
 Route::prefix('client')->middleware(['auth', 'role:client'])->group(function () {
     // Profile and preferences
-    Route::get('profile', function () {
-        return view('Client.ClientProfile');
-    })->name('profile');
-    Route::get('preferences', function () {
-        return view('Client.Preferences');
-    })->name('profile.preferences');
+    Route::get('profile', [ClientController::class, 'index'])->name('ClientProfile');
+    Route::get('/', [ClientController::class, 'index'])->name('profile');
+    Route::get('profile/edit', [ClientController::class, 'edit'])->name('profile.edit');
+    Route::get('preferences', function () {return view('Client.Preferences');})->name('profile.preferences');
     Route::put('profile', [ClientController::class, 'update'])->name('profile.update');
     Route::get('password', [ClientController::class, 'showPasswordForm'])->name('password.update');
 
     // Profile security and 2FA
-    Route::prefix('profile/security')->group(function () {
+    Route::prefix('security')->group(function () {
         Route::post('two-factor', [ClientController::class, 'enableTwoFactor'])->name('two-factor.enable');
         Route::delete('two-factor', [ClientController::class, 'disableTwoFactor'])->name('two-factor.disable');
         Route::get('two-factor/status', [ClientController::class, 'getTwoFactorStatus'])->name('two-factor.status');
@@ -128,5 +129,10 @@ Route::prefix('checkout')->middleware(['auth'])->group(function () {
     Route::post('/process-payment', [CheckoutController::class, 'processPayment'])->name('checkout.process-payment');
 });
 
+// Fallback Route
 
-Route::get('/profile', function () { return view('Client.ClientProfile'); })->name('ClientProfile');
+Route::fallback(function () {
+    return view('404');
+})->name('404');
+
+
