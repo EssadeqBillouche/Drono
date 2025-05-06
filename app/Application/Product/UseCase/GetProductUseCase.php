@@ -18,5 +18,9 @@ class GetProductUseCase
         return $this->productRepository->all();
     }
 
+    public function getAllCategories(){
+        return $this->productRepository->getAllCategories();
+    }
+
 
 }
