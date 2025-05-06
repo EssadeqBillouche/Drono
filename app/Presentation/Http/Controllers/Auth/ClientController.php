@@ -12,10 +12,21 @@ class ClientController extends Controller
         private ClientRegisterUseCase $registerClientUseCase
     ) {}
 
+
+    public function index()
+    {
+        return view('Client.ClientProfile');
+    }
+
     public function store(clientRegisterRequest $request)
     {
         $dto = $request->toDTO();
         $client = $this->registerClientUseCase->RegisterClient($dto);
         return redirect()->route('ClientProfile')->with('success', 'Registration successful!');
+    }
+
+    public function show()
+    {
+        return view('Client.ClientProfile');
     }
 }

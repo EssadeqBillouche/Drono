@@ -16,4 +16,8 @@ interface ProductRepositoryInterface
     public function update(Product $product, int $prouductId): Product;
 
     public function all();
+
+    public function getAllCategories();
+
+    public function getProductsByCategoryId(int $categoryId);
 }

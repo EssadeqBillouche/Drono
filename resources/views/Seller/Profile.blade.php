@@ -20,7 +20,7 @@
             <!-- Profile picture positioned at bottom edge -->
             <div class="absolute -bottom-16 left-8">
                 <div class="w-32 h-32 rounded-full overflow-hidden border-4 border-white shadow-md bg-white">
-                    <img src="{{ asset($seller->profile_picture) }}" alt="{{ $seller->name }}" class="w-full h-full object-cover">
+                    <img src="{{ asset($seller->store_profile) }}" alt="{{ $seller->name }}" class="w-full h-full object-cover">
                 </div>
             </div>
         </div>
@@ -28,7 +28,7 @@
         <div class="pt-20 pb-6 px-8">
             <div class="flex flex-col md:flex-row md:justify-between md:items-end">
                 <div>
-                    <h1 class="text-3xl font-bold text-text">{{ $seller->name }}</h1>
+                    <h1 class="text-3xl font-bold text-text">{{ $seller->store_name }}</h1>
                     <div class="flex items-center mt-2">
                         <div class="text-yellow-400 mr-1.5">
                             <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">

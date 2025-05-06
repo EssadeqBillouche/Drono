@@ -11,4 +11,13 @@ interface OrderRepositoryInterface
 
     public function update(Order $order, $id);
 
+    public function findById($id);
+
+    public function findByUserId($userId);
+
+    public function findBySellerId($sellerId);
+
+    public function findByClientId($clientId);
+
+
 }

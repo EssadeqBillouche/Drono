@@ -11,6 +11,7 @@ use App\Domain\Product\ValueObjects\Image;
 use Exception;
 use http\Exception\InvalidArgumentException;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class ProductDAO implements ProductRepositoryInterface
 {
@@ -116,11 +117,31 @@ class ProductDAO implements ProductRepositoryInterface
             ->join('sellers', 'products.seller_id', '=', 'sellers.id')
             ->join('categories', 'products.category_id', '=', 'categories.id');
 
-        // Debug the query
-        \Log::info($query->toSql());
-        \Log::info($query->getBindings());
-
         return $query->get();
+    }
+
+    public function getProductsByCategoryId(int $categoryId)
+    {
+        $query = DB::table('products')
+            ->select(
+                'products.*',
+                'sellers.*',
+                'sellers.store_profile',
+                'categories.name as category_name'
+            )
+            ->join('sellers', 'products.seller_id', '=', 'sellers.id')
+            ->join('categories', 'products.category_id', '=', 'categories.id')
+            ->where('products.category_id', $categoryId);
+        return $query->get();
+    }
+
+    public function getAllCategories()
+    {
+        $query = DB::table('categories')
+            ->select('id', 'name')
+            ->get();
+        return $query;
+
     }
 }
 
