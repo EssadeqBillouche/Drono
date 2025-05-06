@@ -7,6 +7,8 @@ use App\Domain\Auth\Entities\Client;
 use App\Domain\Auth\Entities\Seller;
 use App\Domain\Auth\Repositories\UserRepositoryInterface;
 use App\Infrastructure\Persistence\Models\User;
+use App\Infrastructure\Persistence\Models\Seller as SellerModel;
+
 use Illuminate\Support\Facades\Hash;
 use MongoDB\Driver\Exception\AuthenticationException;
 use mysql_xdevapi\Exception;
@@ -76,6 +78,12 @@ class UserDAO implements UserRepositoryInterface
         }
 
         return $user;
+    }
+
+    public function getSellerById(int $sellerId)
+    {
+        $seller = SellerModel::with('products')->find($sellerId);
+        return $seller;
     }
 
 
